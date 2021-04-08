@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/04/07/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p><img src="/images/favicon-32x32-next.png" alt="image-20210120233155960"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Arm</title>
+    <url>/2021/04/07/Arm/</url>
+    <content><![CDATA[<h1 id="汇编语言学习"><a href="#汇编语言学习" class="headerlink" title="汇编语言学习"></a>汇编语言学习</h1><h3 id="一、Windows-10-下-NDK-生成ARM原生程序的过程"><a href="#一、Windows-10-下-NDK-生成ARM原生程序的过程" class="headerlink" title="一、Windows 10 下 NDK 生成ARM原生程序的过程"></a><strong>一、Windows 10 下 <code>NDK</code> 生成ARM原生程序的过程</strong></h3><ul>
+<li>基本信息（可参考：<a href="https://blog.csdn.net/xhhjin/article/details/81164076">https://blog.csdn.net/xhhjin/article/details/81164076</a> )<ul>
+<li>Android平台上的ARM原生程序是使用 <code>Android NDK</code> 开发的， 整个原生程序的编译生成工作是由 <code>Android NDK</code> 提供的<strong>编译工具链</strong>完成的。</li>
+<li><code>Android NDK</code> 提供了两套ARM编译器， 分别是基于<code>GNU GCC</code> 编译器的 <code>gcc</code> 编译器与基于 <code>LLVM</code> 编译套件的<code>Clang</code>编译器（目前从 <code>r18</code> 起已经移除 <code>GCC</code> 编译器）。</li>
+<li><code>Android NDK</code>打算从 <code>rl7</code> 版本开始移除对 <code>gcc</code> 的支持， 只提供<code>Clang</code>来编译开发Android 原生程<br>序，目前已仅使用 <code>Clang</code> 来编译开发。</li>
+</ul>
+</li>
+<li><code>Clang</code> 使用参数（参考自：<a href="https://clang.llvm.org/docs/ClangCommandLineReference.html%EF%BC%89">https://clang.llvm.org/docs/ClangCommandLineReference.html）</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>编写程序代码 <code>a.c</code>，代码如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Hello Word&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<span id="more"></span>
+<ul>
+<li><p>使用 <code>Android NDK</code> 编译代码，执行代码如下：</p>
+<ul>
+<li><p>直接编译生成可执行文件（注意：不同的安装包，路径不一样，需要根据实际修改）</p>
+<p><strong>注意：在目录下，存在不同架构的 <code>CMD</code> 脚本，且支持的 <code>API</code> 不一样，可直接使用。截图如下：</strong></p>
+</li>
+</ul>
+<p><img src="E:\security\Android\Clang\structure.png" alt="image-20210120233155960"></p>
+<ul>
+<li>编译生成可执行文件并运行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入 编译器所在路径，本人使用的是Android Studio 4.1 下载的NDK</span></span><br><span class="line">cd &quot;D:\Android\Sdk\ndk\21.3.6528147\toolchains\llvm\prebuilt\windows-x86_64\bin&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行如下命令，可生成可直接执行的C程序</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 此处使用 -target 参数 选择 x86_64-linux-android 架构，且API为30</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># -fPIE -pie 参数， 其作用是生成与位置无关的代码。</span></span></span><br><span class="line">./clang.exe -target x86_64-linux-android30 &quot;C:\Users\jin\Desktop\a.c&quot; -o &quot;C:\Users\jin\Desktop\a&quot; -fPIE -pie</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 此处也可以直接调用 x86_64-linux-android30.cmd 脚本，执行如下</span></span></span><br><span class="line">./x86_64-linux-android30-clang.cmd &quot;C:\Users\jin\Desktop\a.c&quot; -o &quot;C:\Users\jin\Desktop\a&quot; -fPIE -pie</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将生成的可执行文件a push到安卓平台上，修改权限，即可运行</span></span><br><span class="line">PS C:\Users\jin\Desktop&gt;adb push a /data/local/tmp/</span><br><span class="line">PS C:\Users\jin\Desktop&gt; adb shell</span><br><span class="line">taimen:/ $ cd data/local/tmp/</span><br><span class="line">taimen:/data/local/tmp $ rm a</span><br><span class="line">taimen:/data/local/tmp $ ls</span><br><span class="line">android_server  android_x86_server  dalvik-cache  perfd  uidump.xml</span><br><span class="line">taimen:/data/local/tmp $ chmod +x a</span><br><span class="line">taimen:/data/local/tmp $ ./a</span><br><span class="line">Hello Word	# 输出程序结果</span><br><span class="line">taimen:/data/local/tmp $</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>完整的编译过程</strong>（此处以目标架构 <code>aarch64-linux-android30</code> 为例）：</p>
+<p>C 语言文件 <code>app.c</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">include&lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int add(int a,int b,int c,int d)</span><br><span class="line">&#123;</span><br><span class="line">      return a+b+c+d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char＊ argv[])</span><br><span class="line">&#123;</span><br><span class="line">    printf（&quot;add: %d\n&quot;,add(1, 2, 3, 4));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>预处理</p>
+<p>​        在预处理阶段，编译器将处理代码中的预处理指令。例如，“＃include ” 中包含的头文件会全部被编译进来，“＃define ” 预定义、“＃if” 预条件处理等也都会在这里被编译器处理。详细的输出信息可以通过向编译器传递<code>－E</code> 选项查看。可查看文件 <code>cat app.i</code></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./clang.exe -target aarch64-linux-android30 -E -fPIE &quot;C:\Users\jin\Desktop\app.c&quot;  -o &quot;C:\Users\jin\Desktop\app.i&quot; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>编译</p>
+<p>编译器首先要检查代码的规范性， 以及其中是否有语法错误等， 以确定代码实际要做的工作。确认检查无误后， 编译器把代码翻译成ARM汇编语言的代码， 输出信息可以通过向编译器传递－s选项查看。(<strong>注意：不同的编译器（<code>GCC</code>和<code>Clang</code>）生成的汇编码不一样</strong>)</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./clang.exe -target aarch64-linux-android30 -S -fPIE &quot;C:\Users\jin\Desktop\app.i&quot;  -o &quot;C:\Users\jin\Desktop\app.s&quot; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>汇编</p>
+<p>生成目标文件。</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./clang.exe -target aarch64-linux-android30 -c &quot;C:\Users\jin\Desktop\app.s&quot; -o &quot;C:\Users\jin\Desktop\app.o&quot; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>链接</p>
+<p>将所有的目标合并， 生成最终的可执行程序或动态库。</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./clang.exe -target aarch64-linux-android30 &quot;C:\Users\jin\Desktop\app.o&quot;  &quot;C:\Users\jin\Desktop\app&quot; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行后代码输出如下</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">taimen:/data/local/tmp $ chmod +x app</span><br><span class="line">taimen:/data/local/tmp $ ./app</span><br><span class="line">add: 10	# 结果为10</span><br><span class="line">taimen:/data/local/tmp $</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="二、基础知识"><a href="#二、基础知识" class="headerlink" title="二、基础知识"></a>二、基础知识</h3><blockquote>
+<p><strong>Arm 汇编语言</strong></p>
+</blockquote>
+<ul>
+<li><p>基础：</p>
+<ul>
+<li>一门程序语言通常有自己的<strong>关键字、代码规范、子程序调用、注释</strong>等， 汇编语言也不例外。</li>
+<li>汇编语言：是<strong>指将一系列与处理器相关的汇编指令用某种语法和结构组织在一起的程序语言形</strong><br><strong>式</strong>。使用特定汇编语法规范编写的汇编代码， 可以被完整地编译或嵌入其他高级语言。</li>
+</ul>
+</li>
+<li><p>armeabi-v7a、arm64-v8a、armeabi、x86、x86_64的区别：<a href="https://www.uedbox.com/post/65296/">https://www.uedbox.com/post/65296/</a></p>
+</li>
+<li><p>生成汇编码示例：</p>
+<ul>
+<li><p>编译器在编译阶段， 会在内部将程序代码编译成与机器相关的汇编指令。</p>
+<p><strong>注意：选用不同的架构和<code>ABI</code>，生成的汇编格式不一样。</strong></p>
+</li>
+<li><p>执行命令：<code>./clang.exe -target aarch64-linux-android30 -S &quot;C:\Users\jin\Desktop\app.c&quot; -o  &quot;C:\Users\jin\Desktop\app.s&quot;</code> ，查看 <code>app.s</code> 如下：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt; cat app.s</span><br><span class="line">        .text</span><br><span class="line">        .file   &quot;app.c&quot;</span><br><span class="line">        .globl  add                     &#x2F;&#x2F; -- Begin function add</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   add,@function</span><br><span class="line">add:                                    &#x2F;&#x2F; @add</span><br><span class="line">&#x2F;&#x2F; %bb.0:</span><br><span class="line">        sub     sp, sp, #16             &#x2F;&#x2F; &#x3D;16</span><br><span class="line">        str     w0, [sp, #12]</span><br><span class="line">        str     w1, [sp, #8]</span><br><span class="line">        str     w2, [sp, #4]</span><br><span class="line">        str     w3, [sp]</span><br><span class="line">        ldr     w8, [sp, #12]</span><br><span class="line">        ldr     w9, [sp, #8]</span><br><span class="line">        add     w8, w8, w9</span><br><span class="line">        ldr     w9, [sp, #4]</span><br><span class="line">        add     w8, w8, w9</span><br><span class="line">        ldr     w9, [sp]</span><br><span class="line">        add     w0, w8, w9</span><br><span class="line">        add     sp, sp, #16             &#x2F;&#x2F; &#x3D;16</span><br><span class="line">        ret</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add, .Lfunc_end0-add</span><br><span class="line">                                        &#x2F;&#x2F; -- End function</span><br><span class="line">        .globl  main                    &#x2F;&#x2F; -- Begin function main</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   main,@function</span><br><span class="line">main:                                   &#x2F;&#x2F; @main</span><br><span class="line">&#x2F;&#x2F; %bb.0:</span><br><span class="line">        sub     sp, sp, #64             &#x2F;&#x2F; &#x3D;64</span><br><span class="line">        stp     x29, x30, [sp, #48]     &#x2F;&#x2F; 16-byte Folded Spill</span><br><span class="line">        add     x29, sp, #48            &#x2F;&#x2F; &#x3D;48</span><br><span class="line">        mov     w8, #0</span><br><span class="line">        mov     w9, #1</span><br><span class="line">        mov     w10, #2</span><br><span class="line">        mov     w2, #3</span><br><span class="line">        mov     w3, #4</span><br><span class="line">        adrp    x11, .L.str</span><br><span class="line">        add     x11, x11, :lo12:.L.str</span><br><span class="line">        stur    wzr, [x29, #-4]</span><br><span class="line">        stur    w0, [x29, #-8]</span><br><span class="line">        stur    x1, [x29, #-16]</span><br><span class="line">        mov     w0, w9</span><br><span class="line">        mov     w1, w10</span><br><span class="line">        stur    w8, [x29, #-20]         &#x2F;&#x2F; 4-byte Folded Spill</span><br><span class="line">        str     x11, [sp, #16]          &#x2F;&#x2F; 8-byte Folded Spill</span><br><span class="line">        bl      add</span><br><span class="line">        ldr     x11, [sp, #16]          &#x2F;&#x2F; 8-byte Folded Reload</span><br><span class="line">        str     w0, [sp, #12]           &#x2F;&#x2F; 4-byte Folded Spill</span><br><span class="line">        mov     x0, x11</span><br><span class="line">        ldr     w1, [sp, #12]           &#x2F;&#x2F; 4-byte Folded Reload</span><br><span class="line">        bl      printf</span><br><span class="line">        ldur    w8, [x29, #-20]         &#x2F;&#x2F; 4-byte Folded Reload</span><br><span class="line">        mov     w0, w8</span><br><span class="line">        ldp     x29, x30, [sp, #48]     &#x2F;&#x2F; 16-byte Folded Reload</span><br><span class="line">        add     sp, sp, #64             &#x2F;&#x2F; &#x3D;64</span><br><span class="line">        ret</span><br><span class="line">.Lfunc_end1:</span><br><span class="line">        .size   main, .Lfunc_end1-main</span><br><span class="line">                                        &#x2F;&#x2F; -- End function</span><br><span class="line">        .type   .L.str,@object          &#x2F;&#x2F; @.str</span><br><span class="line">        .section        .rodata.str1.1,&quot;aMS&quot;,@progbits,1</span><br><span class="line">.L.str:</span><br><span class="line">        .asciz  &quot;add: %d\n&quot;</span><br><span class="line">        .size   .L.str, 9</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https:&#x2F;&#x2F;android.googlesource.com&#x2F;toolchain&#x2F;llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">        .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,@progbits</span><br><span class="line">                                                                   </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行命令：<code>./clang.exe -target armv7a-linux-androideabi30 -S C:\Users\jin\Desktop\app.c&quot; -o  &quot;C:\Users\jin\Desktop\app1.s&quot;</code> ，查看 <code>app1.s</code> 如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt; cat app1.s</span><br><span class="line">        .text</span><br><span class="line">        .syntax unified</span><br><span class="line">        .eabi_attribute 67, &quot;2.09&quot;      @ Tag_conformance</span><br><span class="line">        .eabi_attribute 6, 10   @ Tag_CPU_arch</span><br><span class="line">        .eabi_attribute 7, 65   @ Tag_CPU_arch_profile</span><br><span class="line">        .eabi_attribute 8, 1    @ Tag_ARM_ISA_use</span><br><span class="line">        .eabi_attribute 9, 2    @ Tag_THUMB_ISA_use</span><br><span class="line">        .fpu    neon</span><br><span class="line">        .eabi_attribute 34, 1   @ Tag_CPU_unaligned_access</span><br><span class="line">        .eabi_attribute 15, 1   @ Tag_ABI_PCS_RW_data</span><br><span class="line">        .eabi_attribute 16, 1   @ Tag_ABI_PCS_RO_data</span><br><span class="line">        .eabi_attribute 17, 2   @ Tag_ABI_PCS_GOT_use</span><br><span class="line">        .eabi_attribute 20, 1   @ Tag_ABI_FP_denormal</span><br><span class="line">        .eabi_attribute 21, 1   @ Tag_ABI_FP_exceptions</span><br><span class="line">        .eabi_attribute 23, 3   @ Tag_ABI_FP_number_model</span><br><span class="line">        .eabi_attribute 24, 1   @ Tag_ABI_align_needed</span><br><span class="line">        .eabi_attribute 25, 1   @ Tag_ABI_align_preserved</span><br><span class="line">        .eabi_attribute 38, 1   @ Tag_ABI_FP_16bit_format</span><br><span class="line">        .eabi_attribute 18, 4   @ Tag_ABI_PCS_wchar_t</span><br><span class="line">        .eabi_attribute 26, 2   @ Tag_ABI_enum_size</span><br><span class="line">        .eabi_attribute 14, 0   @ Tag_ABI_PCS_R9_use</span><br><span class="line">        .file   &quot;app.c&quot;</span><br><span class="line">        .globl  add                     @ -- Begin function add</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   add,%function</span><br><span class="line">        .code   32                      @ @add</span><br><span class="line">add:</span><br><span class="line">        .fnstart</span><br><span class="line">@ %bb.0:</span><br><span class="line">        .pad    #16</span><br><span class="line">        sub     sp, sp, #16</span><br><span class="line">        str     r0, [sp, #12]</span><br><span class="line">        str     r1, [sp, #8]</span><br><span class="line">        str     r2, [sp, #4]</span><br><span class="line">        str     r3, [sp]</span><br><span class="line">        ldr     r0, [sp, #12]</span><br><span class="line">        ldr     r1, [sp, #8]</span><br><span class="line">        add     r0, r0, r1</span><br><span class="line">        ldr     r1, [sp, #4]</span><br><span class="line">        add     r0, r0, r1</span><br><span class="line">        ldr     r1, [sp]</span><br><span class="line">        add     r0, r0, r1</span><br><span class="line">        add     sp, sp, #16</span><br><span class="line">        bx      lr</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add, .Lfunc_end0-add</span><br><span class="line">        .cantunwind</span><br><span class="line">        .fnend</span><br><span class="line">                                        @ -- End function</span><br><span class="line">        .globl  main                    @ -- Begin function main</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   main,%function</span><br><span class="line">        .code   32                      @ @main</span><br><span class="line">main:</span><br><span class="line">        .fnstart</span><br><span class="line">@ %bb.0:</span><br><span class="line">        .save   &#123;r11, lr&#125;</span><br><span class="line">        push    &#123;r11, lr&#125;</span><br><span class="line">        .setfp  r11, sp</span><br><span class="line">        mov     r11, sp</span><br><span class="line">        .pad    #24</span><br><span class="line">        sub     sp, sp, #24</span><br><span class="line">        movw    r2, #0</span><br><span class="line">        str     r2, [r11, #-4]</span><br><span class="line">        str     r0, [r11, #-8]</span><br><span class="line">        str     r1, [sp, #12]</span><br><span class="line">        movw    r0, #1</span><br><span class="line">        movw    r1, #2</span><br><span class="line">        movw    r2, #3</span><br><span class="line">        movw    r3, #4</span><br><span class="line">        bl      add</span><br><span class="line">        ldr     r1, .LCPI1_0</span><br><span class="line">.LPC1_0:</span><br><span class="line">        add     r1, pc, r1</span><br><span class="line">        str     r0, [sp, #8]            @ 4-byte Spill</span><br><span class="line">        mov     r0, r1</span><br><span class="line">        ldr     r1, [sp, #8]            @ 4-byte Reload</span><br><span class="line">        bl      printf</span><br><span class="line">        movw    r1, #0</span><br><span class="line">        str     r0, [sp, #4]            @ 4-byte Spill</span><br><span class="line">        mov     r0, r1</span><br><span class="line">        mov     sp, r11</span><br><span class="line">        pop     &#123;r11, pc&#125;</span><br><span class="line">        .p2align        2</span><br><span class="line">@ %bb.1:</span><br><span class="line">.LCPI1_0:</span><br><span class="line">        .long   .L.str-(.LPC1_0+8)</span><br><span class="line">.Lfunc_end1:</span><br><span class="line">        .size   main, .Lfunc_end1-main</span><br><span class="line">        .cantunwind</span><br><span class="line">        .fnend</span><br><span class="line">                                        @ -- End function</span><br><span class="line">        .type   .L.str,%object          @ @.str</span><br><span class="line">        .section        .rodata.str1.1,&quot;aMS&quot;,%progbits,1</span><br><span class="line">.L.str:</span><br><span class="line">        .asciz  &quot;add: %d\n&quot;</span><br><span class="line">        .size   .L.str, 9</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https:&#x2F;&#x2F;android.googlesource.com&#x2F;toolchain&#x2F;llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">        .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,%progbits</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行命令：<code>./clang.exe -target i686-linux-android30 -S &quot;C:\Users\jin\Desktop\app.c&quot; -o  &quot;C:\Users\jin\Desktop\app2.s&quot;</code> ，查看 <code>app2.s</code> 如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;a cat app2.s</span><br><span class="line">        .text</span><br><span class="line">        .file   &quot;app.c&quot;</span><br><span class="line">        .globl  add                     # -- Begin function add</span><br><span class="line">        .p2align        4, 0x90</span><br><span class="line">        .type   add,@function</span><br><span class="line">add:                                    # @add</span><br><span class="line"># %bb.0:</span><br><span class="line">        pushl   %ebp</span><br><span class="line">        movl    %esp, %ebp</span><br><span class="line">        pushl   %edi</span><br><span class="line">        pushl   %esi</span><br><span class="line">        pushl   %eax</span><br><span class="line">        movl    20(%ebp), %eax</span><br><span class="line">        movl    16(%ebp), %ecx</span><br><span class="line">        movl    12(%ebp), %edx</span><br><span class="line">        movl    8(%ebp), %esi</span><br><span class="line">        movl    8(%ebp), %edi</span><br><span class="line">        addl    12(%ebp), %edi</span><br><span class="line">        addl    16(%ebp), %edi</span><br><span class="line">        addl    20(%ebp), %edi</span><br><span class="line">        movl    %eax, -12(%ebp)         # 4-byte Spill</span><br><span class="line">        movl    %edi, %eax</span><br><span class="line">        addl    $4, %esp</span><br><span class="line">        popl    %esi</span><br><span class="line">        popl    %edi</span><br><span class="line">        popl    %ebp</span><br><span class="line">        retl</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add, .Lfunc_end0-add</span><br><span class="line">                                        # -- End function</span><br><span class="line">        .globl  main                    # -- Begin function main</span><br><span class="line">        .p2align        4, 0x90</span><br><span class="line">        .type   main,@function</span><br><span class="line">main:                                   # @main</span><br><span class="line"># %bb.0:</span><br><span class="line">        pushl   %ebp</span><br><span class="line">        movl    %esp, %ebp</span><br><span class="line">        pushl   %ebx</span><br><span class="line">        subl    $36, %esp</span><br><span class="line">        calll   .L1$pb</span><br><span class="line">.L1$pb:</span><br><span class="line">        popl    %eax</span><br><span class="line">.Ltmp0:</span><br><span class="line">        addl    $_GLOBAL_OFFSET_TABLE_+(.Ltmp0-.L1$pb), %eax</span><br><span class="line">        movl    12(%ebp), %ecx</span><br><span class="line">        movl    8(%ebp), %edx</span><br><span class="line">        movl    $0, -8(%ebp)</span><br><span class="line">        movl    $1, (%esp)</span><br><span class="line">        movl    $2, 4(%esp)</span><br><span class="line">        movl    $3, 8(%esp)</span><br><span class="line">        movl    $4, 12(%esp)</span><br><span class="line">        movl    %eax, %ebx</span><br><span class="line">        movl    %eax, -12(%ebp)         # 4-byte Spill</span><br><span class="line">        movl    %ecx, -16(%ebp)         # 4-byte Spill</span><br><span class="line">        movl    %edx, -20(%ebp)         # 4-byte Spill</span><br><span class="line">        calll   add</span><br><span class="line">        movl    -12(%ebp), %ecx         # 4-byte Reload</span><br><span class="line">        leal    .L.str@GOTOFF(%ecx), %edx</span><br><span class="line">        movl    %edx, (%esp)</span><br><span class="line">        movl    %eax, 4(%esp)</span><br><span class="line">        movl    %ecx, %ebx</span><br><span class="line">        calll   printf@PLT</span><br><span class="line">        xorl    %ecx, %ecx</span><br><span class="line">        movl    %eax, -24(%ebp)         # 4-byte Spill</span><br><span class="line">        movl    %ecx, %eax</span><br><span class="line">        addl    $36, %esp</span><br><span class="line">        popl    %ebx</span><br><span class="line">        popl    %ebp</span><br><span class="line">        retl</span><br><span class="line">.Lfunc_end1:</span><br><span class="line">        .size   main, .Lfunc_end1-main</span><br><span class="line">                                        # -- End function</span><br><span class="line">        .type   .L.str,@object          # @.str</span><br><span class="line">        .section        .rodata.str1.1,&quot;aMS&quot;,@progbits,1</span><br><span class="line">.L.str:</span><br><span class="line">        .asciz  &quot;add: %d\n&quot;</span><br><span class="line">        .size   .L.str, 9</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https:&#x2F;&#x2F;android.googlesource.com&#x2F;toolchain&#x2F;llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">        .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,@progbits</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行命令：<code>./clang.exe -target x86_64-linux-android30 -S &quot;C:\Users\jin\Desktop\app.c&quot; -o  &quot;C:\Users\jin\Desktop\app3.s&quot;</code> ，查看 <code>app3.s</code> 如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; cat app3.s</span></span><br><span class="line">        .text</span><br><span class="line">        .file   &quot;app.c&quot;</span><br><span class="line">        .globl  add                     # -- Begin function add</span><br><span class="line">        .p2align        4, 0x90</span><br><span class="line">        .type   add,@function</span><br><span class="line">add:                                    # @add</span><br><span class="line">        .cfi_startproc</span><br><span class="line"><span class="meta">#</span><span class="bash"> %bb.0:</span></span><br><span class="line">        pushq   %rbp</span><br><span class="line">        .cfi_def_cfa_offset 16</span><br><span class="line">        .cfi_offset %rbp, -16</span><br><span class="line">        movq    %rsp, %rbp</span><br><span class="line">        .cfi_def_cfa_register %rbp</span><br><span class="line">        movl    %edi, -4(%rbp)</span><br><span class="line">        movl    %esi, -8(%rbp)</span><br><span class="line">        movl    %edx, -12(%rbp)</span><br><span class="line">        movl    %ecx, -16(%rbp)</span><br><span class="line">        movl    -4(%rbp), %eax</span><br><span class="line">        addl    -8(%rbp), %eax</span><br><span class="line">        addl    -12(%rbp), %eax</span><br><span class="line">        addl    -16(%rbp), %eax</span><br><span class="line">        popq    %rbp</span><br><span class="line">        .cfi_def_cfa %rsp, 8</span><br><span class="line">        retq</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add, .Lfunc_end0-add</span><br><span class="line">        .cfi_endproc</span><br><span class="line">                                        # -- End function</span><br><span class="line">        .globl  main                    # -- Begin function main</span><br><span class="line">        .p2align        4, 0x90</span><br><span class="line">        .type   main,@function</span><br><span class="line">main:                                   # @main</span><br><span class="line">        .cfi_startproc</span><br><span class="line"><span class="meta">#</span><span class="bash"> %bb.0:</span></span><br><span class="line">        pushq   %rbp</span><br><span class="line">        .cfi_def_cfa_offset 16</span><br><span class="line">        .cfi_offset %rbp, -16</span><br><span class="line">        movq    %rsp, %rbp</span><br><span class="line">        .cfi_def_cfa_register %rbp</span><br><span class="line">        subq    $32, %rsp</span><br><span class="line">        movl    $0, -4(%rbp)</span><br><span class="line">        movl    %edi, -8(%rbp)</span><br><span class="line">        movq    %rsi, -16(%rbp)</span><br><span class="line">        movl    $1, %edi</span><br><span class="line">        movl    $2, %esi</span><br><span class="line">        movl    $3, %edx</span><br><span class="line">        movl    $4, %ecx</span><br><span class="line">        callq   add</span><br><span class="line">        leaq    .L.str(%rip), %rdi</span><br><span class="line">        movl    %eax, %esi</span><br><span class="line">        movb    $0, %al</span><br><span class="line">        callq   printf@PLT</span><br><span class="line">        xorl    %ecx, %ecx</span><br><span class="line">        movl    %eax, -20(%rbp)         # 4-byte Spill</span><br><span class="line">        movl    %ecx, %eax</span><br><span class="line">        addq    $32, %rsp</span><br><span class="line">        popq    %rbp</span><br><span class="line">        .cfi_def_cfa %rsp, 8</span><br><span class="line">        retq</span><br><span class="line">.Lfunc_end1:</span><br><span class="line">        .size   main, .Lfunc_end1-main</span><br><span class="line">        .cfi_endproc</span><br><span class="line">                                        # -- End function</span><br><span class="line">        .type   .L.str,@object          # @.str</span><br><span class="line">        .section        .rodata.str1.1,&quot;aMS&quot;,@progbits,1</span><br><span class="line">.L.str:</span><br><span class="line">        .asciz  &quot;add: %d\n&quot;</span><br><span class="line">        .size   .L.str, 9</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https://android.googlesource.com/toolchain/llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">        .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,@progbits</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>代码优化：LLVM(驱动程序的clang和llvm-gcc变体)仅支持高达-O4(-O4与-O3 -flto相同)的级别.所以你不应该在没有测试的情况下使用-O4,因为lto慢,可能会破坏你的程序。</p>
+<ul>
+<li>测试 <code>armeabi-v7a</code> 代码 <code>O3</code> 级别优化如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./clang.exe &quot;C:\Users\jin\Desktop\app.c&quot; -S -O3 -fPIE  -target armv7-linux-androideabi -o &quot;C:\Users\jin\Desktop\app.s&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 参数 -O3 -fPIE ，启动O3级别优化，精简代码</span></span><br></pre></td></tr></table></figure>
+
+<p>优化后代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt; cat app.s</span><br><span class="line">        .text</span><br><span class="line">        .syntax unified</span><br><span class="line">        .eabi_attribute 67, &quot;2.09&quot;      @ Tag_conformance</span><br><span class="line">        .eabi_attribute 6, 10   @ Tag_CPU_arch</span><br><span class="line">        .eabi_attribute 7, 65   @ Tag_CPU_arch_profile</span><br><span class="line">        .eabi_attribute 8, 1    @ Tag_ARM_ISA_use</span><br><span class="line">        .eabi_attribute 9, 2    @ Tag_THUMB_ISA_use</span><br><span class="line">        .fpu    neon</span><br><span class="line">        .eabi_attribute 34, 1   @ Tag_CPU_unaligned_access</span><br><span class="line">        .eabi_attribute 15, 1   @ Tag_ABI_PCS_RW_data</span><br><span class="line">        .eabi_attribute 16, 1   @ Tag_ABI_PCS_RO_data</span><br><span class="line">        .eabi_attribute 17, 2   @ Tag_ABI_PCS_GOT_use</span><br><span class="line">        .eabi_attribute 20, 1   @ Tag_ABI_FP_denormal</span><br><span class="line">        .eabi_attribute 21, 1   @ Tag_ABI_FP_exceptions</span><br><span class="line">        .eabi_attribute 23, 3   @ Tag_ABI_FP_number_model</span><br><span class="line">        .eabi_attribute 24, 1   @ Tag_ABI_align_needed</span><br><span class="line">        .eabi_attribute 25, 1   @ Tag_ABI_align_preserved</span><br><span class="line">        .eabi_attribute 38, 1   @ Tag_ABI_FP_16bit_format</span><br><span class="line">        .eabi_attribute 18, 4   @ Tag_ABI_PCS_wchar_t</span><br><span class="line">        .eabi_attribute 26, 2   @ Tag_ABI_enum_size</span><br><span class="line">        .eabi_attribute 14, 0   @ Tag_ABI_PCS_R9_use</span><br><span class="line">        .file   &quot;app.c&quot;</span><br><span class="line">        .globl  add                     @ -- Begin function add</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   add,%function</span><br><span class="line">        .code   32                      @ @add</span><br><span class="line">add:</span><br><span class="line">        .fnstart</span><br><span class="line">@ %bb.0:</span><br><span class="line">        add     r0, r1, r0</span><br><span class="line">        add     r0, r0, r2</span><br><span class="line">        add     r0, r0, r3</span><br><span class="line">        bx      lr</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add, .Lfunc_end0-add</span><br><span class="line">        .cantunwind</span><br><span class="line">        .fnend</span><br><span class="line">                                        @ -- End function</span><br><span class="line">        .globl  main                    @ -- Begin function main</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   main,%function</span><br><span class="line">        .code   32                      @ @main</span><br><span class="line">main:</span><br><span class="line">        .fnstart</span><br><span class="line">@ %bb.0:</span><br><span class="line">        .save   &#123;r11, lr&#125;</span><br><span class="line">        push    &#123;r11, lr&#125;</span><br><span class="line">        .setfp  r11, sp</span><br><span class="line">        mov     r11, sp</span><br><span class="line">        ldr     r0, .LCPI1_0</span><br><span class="line">        mov     r1, #10</span><br><span class="line">.LPC1_0:</span><br><span class="line">        add     r0, pc, r0</span><br><span class="line">        bl      printf</span><br><span class="line">        mov     r0, #0</span><br><span class="line">        pop     &#123;r11, pc&#125;</span><br><span class="line">        .p2align        2</span><br><span class="line">@ %bb.1:</span><br><span class="line">.LCPI1_0:</span><br><span class="line">        .long   .L.str-(.LPC1_0+8)</span><br><span class="line">.Lfunc_end1:</span><br><span class="line">        .size   main, .Lfunc_end1-main</span><br><span class="line">        .cantunwind</span><br><span class="line">        .fnend</span><br><span class="line">                                        @ -- End function</span><br><span class="line">        .type   .L.str,%object          @ @.str</span><br><span class="line">        .section        .rodata.str1.1,&quot;aMS&quot;,%progbits,1</span><br><span class="line">.L.str:</span><br><span class="line">        .asciz  &quot;add: %d\n&quot;</span><br><span class="line">        .size   .L.str, 9</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https:&#x2F;&#x2F;android.googlesource.com&#x2F;toolchain&#x2F;llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">        .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,%progbits</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>ARM 汇编文件解析：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.arch	# 指定了ARM处理器架构。</span><br><span class="line">.fpu	# 指定协处理器的类型(softvfp或neon)。softvfp表示使用浮点数运算库来模拟协处理器运算。</span><br><span class="line">.eabi_attrbute # 指定了一些接口。</span><br><span class="line">.</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>一个完整的汇编程序由以下部分组成：</p>
+<ul>
+<li><p><strong>处理器类型声明：</strong></p>
+<ul>
+<li>可以使用 <code>.arch</code> 指定处理器的架构 </li>
+<li>使用 <code>.cpu</code> 指定处理器的型号。如果使用浮点指令， 建议使用 <code>.fpu</code> 来指定协处理器的类型， 例如softvfp、neon。</li>
+</ul>
+</li>
+<li><p><strong>代码与数据段声明：</strong> </p>
+<ul>
+<li>一个完整的程序， 在编译后都会有用于存放代码的<strong>代码段</strong>（在<code>ARM EABI</code>的 <code>ELF</code> 中， 段名为 <code>.text</code>）， </li>
+<li>用于存放数据的<strong>数据段</strong>（在 <code>ARM EABI</code> 的 <code>ELF</code> 中，段名为 <code>.rodata</code>）。</li>
+<li><font color='red'>在一些特殊的程序中， 可能没有数据段， 但通常都有代码段</font>。</li>
+<li>在汇编代码中<strong>声明段时需要使用伪指令</strong> <code>.section</code>， 代码段的声明 .section.text 可以简写为.text。</li>
+<li>在代码中使用 .section 伪指令声明的所有的段信息， 在被编译成程序后， 可以通过执行如下命令来查看。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入 编译器所在路径，本人使用的是Android Studio 4.1 下载的NDK</span></span><br><span class="line">cd &quot;D:\Android\Sdk\ndk\21.3.6528147\toolchains\llvm\prebuilt\windows-x86_64\bin&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看段信息</span></span><br><span class="line">./aarch64-linux-android-readelf.exe --sections &quot;C:\Users\jin\Desktop\app&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>​    结果如下图：</p>
+<p><img src="E:\security\Arm汇编语言\sections.png" alt="image-20210121140215293"></p>
+</li>
+<li><p><strong>符号：</strong></p>
+<ul>
+<li><p>符号：<strong>表示一系列可以检索和引用的目标， 它可以是一个变量、一个常量或者一个函数</strong>。</p>
+</li>
+<li><p>在汇编代码中， 可以直接引用外部符号。例如， 汇编指令 <code>bl printf</code>  就调用了外部函数<code>printf（）</code>， 这里的printf就是一个外部符号。</p>
+</li>
+<li><p>在汇编代码中， 还可以使用.global声明全局符号。全局符号可以被程序外部引用， 例如代码中的<code>add（）</code>和 <code>main（）</code> 函数就是全局符号。</p>
+</li>
+<li><p><strong>将代码编译成程序后， 可以使用 <code>nm</code> 命令 查看它的所有符号信息。</strong>示例如下：</p>
+<p>符号信息可参考：<a href="https://www.cnblogs.com/LiuYanYGZ/p/5536607.html">https://www.cnblogs.com/LiuYanYGZ/p/5536607.html</a></p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入 编译器所在路径，本人使用的是Android Studio 4.1 下载的NDK</span></span><br><span class="line">cd &quot;D:\Android\Sdk\ndk\21.3.6528147\toolchains\llvm\prebuilt\windows-x86_64\bin&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看符号信息</span></span><br><span class="line">./aarch64-linux-android-nm.exe &quot;C:\Users\jin\Desktop\app&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 符号信息解释</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1.全局符号使用大写字母T表示，含义是“text section symbol”，表示在代码段中定义的符号。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2.外部符号使用大写字母U表示， 其含义是“ undefined” ，表示未定义的符号， 需要在程序运行时进行     动态设置。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3.大写字母D的含义是“ data section symbol ”表示在数据段中定义的符号。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 4.大写字母A的含义是“absolute” ， 表示绝对符号。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 5.小写字母r的含义是“<span class="built_in">readonly</span> symbol” ， 表示一个只读的数据代码中的符号。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 6.更多的符号信息可以通过执行 man nm 命令查看。</span></span><br></pre></td></tr></table></figure>
+
+<p>​    结果如下图：</p>
+<p><img src="E:\security\Arm汇编语言\nm.png" alt="image-20210121141307725"></p>
+</li>
+<li><p><strong>子程序</strong>：</p>
+<ul>
+<li><strong>高级语言中的函数在汇编语言中称为子程序</strong>。</li>
+<li>汇编语言中的子程序是由 <code>.type</code> 伪指令声明为 <code>%function</code> 的符号， 例如 <code>app.s</code>中的 <code>add</code> 符号。</li>
+<li>目前不同的架构哦对子程序的声明不一样，可以观察上面四个汇编代码查看。</li>
+<li>对于 <code>armeabi-v7a</code> 汇编，子程序由 <code>.fnstart</code> 伪指令开始，由 <code>.fnend</code> 伪指令结束，伪指令前面是一条条汇编指令的有机集合。</li>
+<li>ARM，对于 <code>armeabi-v7a</code> 汇编中声明子程序的完整格式如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.global 子程序名</span><br><span class="line">.type 子程序名，%function</span><br><span class="line">子程序名： ＠＠子程序名</span><br><span class="line">.fnstart</span><br><span class="line">	〈… 汇编指令语句……〉</span><br><span class="line">.fnend</span><br><span class="line"></span><br><span class="line"># 示例如下</span><br><span class="line">        .globl  add                     @ -- Begin function add</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   add,%function</span><br><span class="line">        .code   32                      @ @add</span><br><span class="line">add:</span><br><span class="line">        .fnstart</span><br><span class="line">@ %bb.0:</span><br><span class="line">        .pad    #16</span><br><span class="line">        sub     sp, sp, #16	 </span><br><span class="line">        str     r0, [sp, #12]</span><br><span class="line">        str     r1, [sp, #8]</span><br><span class="line">        str     r2, [sp, #4]</span><br><span class="line">        str     r3, [sp]</span><br><span class="line">        ldr     r0, [sp, #12]</span><br><span class="line">        ldr     r1, [sp, #8]</span><br><span class="line">        add     r0, r0, r1</span><br><span class="line">        ldr     r1, [sp, #4]</span><br><span class="line">        add     r0, r0, r1</span><br><span class="line">        ldr     r1, [sp]</span><br><span class="line">        add     r0, r0, r1</span><br><span class="line">        add     sp, sp, #16</span><br><span class="line">        bx      lr</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add, .Lfunc_end0-add</span><br><span class="line">        .cantunwind</span><br><span class="line">        .fnend</span><br><span class="line">                                        @ -- End function</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>汇编指令</strong>：</p>
+<ul>
+<li>汇编指令是最小的单元数据， 它存在于子程序的各个角落， 每条汇编指令完成一项特定的工作。</li>
+<li>将多条汇编指令组织在一起， 就形成了形形色色的应用程序。</li>
+</ul>
+</li>
+<li><p><strong>标号与注释：</strong></p>
+<ul>
+<li>汇编语言的一大特色便是标号。</li>
+<li>在汇编代码中， 调用程序没有像在高级语言中那样的语法糖， 很多数据与代码的引用甚至跳转、执行都依赖标号完成。</li>
+<li>在声明标号时， 只要在需要声明为标号的内容后加上冒号“ <code>:</code> ” 即可。</li>
+<li>为了便于阅读， 声明的标号通常从行首开始， 中间的内容用 “<code>Tab</code>“ 键缩进。汇编代码也支持添加单行注释，在单行注释前应使用“＠” 符号进行标识。如果在一行代码中添加了“＠” 符号， 该行中“＠” 符号后面的内容将全部被解释成注释。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>汇编指令</p>
+<ul>
+<li><p>汇编代码能实现什么功能，完全是由它的子程序的功能决定， 而子程序中几乎都是处理器指令。归根到底，在一个程序中，除了里面的数据，最重要的就是一条条的汇编指令。</p>
+</li>
+<li><p>ARM处理器使用基于精简架构的处理器指令集（ <code>Reduced Instruction Set Computer， RISC</code>)。</p>
+<ul>
+<li><strong>特点是所有指令的长度都是相同的</strong>。这与 <code>Intel x86</code> 的变长指令不同。</li>
+<li><strong>好处是， 程序执行时处理器取指令的速度相对较快，执行效率更高。</strong></li>
+</ul>
+</li>
+<li><p>ARM中定义的每条汇编指令都有特定的含义。</p>
+</li>
+<li><p>以如下代码片段为例：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@sub: 汇编减法指令， 出现在汇编语句的前面，后跟结果对象、原操作对象及目的操作对象数值。</span><br><span class="line">sub     sp, sp, #16  @当做栈使用，armeabi-v7a是32位(4字节)指令，参数有四个，故需要16个字节。</span><br><span class="line"></span><br><span class="line">@str：存数据指令，将寄存器中的内容存储到内存指定位置</span><br><span class="line">str     r0, [sp, #12]	@ 用于将rO寄存器的内容存储到sp寄存器加12字节的位置。</span><br><span class="line">str     r1, [sp, #8]</span><br><span class="line">str     r2, [sp, #4]</span><br><span class="line">str     r3, [sp]</span><br><span class="line"></span><br><span class="line">@ldr：取数据指令，将指定位置内存中的数据取出，放入寄存器</span><br><span class="line">ldr     r0, [sp, #12]	@ 读取sp寄存器加12字节位置的数据并放到r0寄存器中</span><br><span class="line">ldr     r1, [sp, #8]	</span><br><span class="line"></span><br><span class="line">@add：加法指令，用法同sub</span><br><span class="line">add     r0, r0, r1</span><br><span class="line">ldr     r1, [sp, #4]</span><br><span class="line">add     r0, r0, r1</span><br><span class="line">ldr     r1, [sp]</span><br><span class="line">add     r0, r0, r1</span><br><span class="line">add     sp, sp, #16</span><br><span class="line"></span><br><span class="line">@bx：带状态跳转指令，用跳转到lr寄存器指定的位置井执行代码，通常表示子程序结束并返回。</span><br><span class="line">bx      lr</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>ARM处理器支持七种运行模式 (参考自：<a href="https://blog.csdn.net/caihaitao2000/article/details/79682309)%EF%BC%9A">https://blog.csdn.net/caihaitao2000/article/details/79682309)：</a></p>
+<table>
+<thead>
+<tr>
+<th>处理器模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户模式(<code>User</code>)</td>
+<td>正常程序执行的模式</td>
+</tr>
+<tr>
+<td>快速中断模式(<code>FIQ,fiq</code>)</td>
+<td>用于高速数据传输和通道处理</td>
+</tr>
+<tr>
+<td>外部中断模式(<code>IRQ</code>)</td>
+<td>用于通常的中断处理</td>
+</tr>
+<tr>
+<td>特权模式(<code>Supervisor</code>)</td>
+<td>供操作系统使用的一种保护模式</td>
+</tr>
+<tr>
+<td>数据访问中止模式(<code>Abort</code>)</td>
+<td>用于虚拟存储及存储保护</td>
+</tr>
+<tr>
+<td>未定义指令中止模式(<code>Undefined</code>)</td>
+<td>用于支持通过软件仿真硬件的协处理器</td>
+</tr>
+<tr>
+<td>系统模式(<code>System</code>)</td>
+<td>用于运行特权级的操作系统任务</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>除<strong>用户模式外</strong>的其他**6种处理器模式称为特权模式(Privileged Modes)**。<font color='red'>在这些特权模式下，程序可以访问所有的系统资源，也可以任意地进行处理器模式的切换</font>。</p>
+</li>
+<li><p>除<strong>系统模式外</strong>，其他<strong>五种特权模式又称为异常模式</strong>。</p>
+</li>
+<li><p>处理器模式可以通过软件控制进行切换，也可以通过外部中断或异常处理过程进行切换。</p>
+</li>
+<li><p><strong>大多数用户程序运行在用户模式下</strong>。这时，应用程序不能够访问一些受操作系统保护的系统资源。也不能直接进行处理器模式的切换。<strong>当需要进行处理器模式切换时，应用程序可以产生异常处理，在异常处理过程中进行处理器模式的切换。</strong>这种体系结构可以使操作系统控制整个系统的资源。</p>
+</li>
+<li><p>当应用程序发生异常中断时，处理器进入相应的异常模式。在<strong>每一种异常模式中都有一组寄存器，供相应的异常处理程序使用</strong>，这样就<strong>可以保证进入异常模式时，用户模式下的寄存器不被破坏</strong>。</p>
+</li>
+<li><p><strong>系统模式并不是通过异常过程进入</strong>的，<strong>它和用户模式具有完全一样的寄存器</strong>。但是<strong>系统模式属于特权模式，可以访问所用的系统资源，也可以直接进行处理器模式的切换</strong>。它主要供操作系统任务使用。通常操作系统的任务需要访问所有的系统资源，同时该任务仍然使用用户模式的寄存器组，而不是使用异常模式下相应的寄存器组，这样就可以保证当异常中断发生时任务状态不被破坏。</p>
+</li>
+<li><p><strong>此处只关注ARM程序逆向分析技术涉及的用户模式。</strong></p>
+</li>
+</ul>
+</li>
+<li><p>寄存器</p>
+<ul>
+<li><p>很多汇编指令需要指定源操作对象与目标操作对象，操作的对象很多时候就是寄存器。</p>
+</li>
+<li><p><strong>寄存器是处理器特有的高速存储部件</strong>，<strong>可用于暂存指令、数据和地址</strong>。在高级语言申使用的变量、常量、结构体、类等数据到了ARM汇编语言中，就是使用寄存器保存的值或内存地址。</p>
+</li>
+<li><p><font color='red'>寄存器数量有限，32位的ARM微处理器共有<strong>37个32位寄存器</strong>，<strong>其中31个为通用寄存器，6个为状态寄存器</strong></font>。</p>
+</li>
+<li><p>在<strong>32位的用户模式</strong>下，<strong>处理器可以访问的寄存器</strong>为：</p>
+<ul>
+<li>不分组寄存器 <code>R0～R7</code></li>
+<li>分组寄存器 <code>R8～R14</code>、</li>
+<li>程序计数器 <code>R15 (PC）</code></li>
+<li>当前程序状态寄存器 <code>CPSR</code>。</li>
+</ul>
+<p><strong>补充：lr（R14）寄存器的作用：<a href="https://blog.csdn.net/xu1fei2/article/details/8022931">https://blog.csdn.net/xu1fei2/article/details/8022931</a></strong></p>
+</li>
+</ul>
+</li>
+<li><p>处理器寻址方式（可参考：<a href="https://zhuanlan.zhihu.com/p/48654165%EF%BC%89">https://zhuanlan.zhihu.com/p/48654165）</a></p>
+<ul>
+<li><p>基础知识</p>
+<ul>
+<li><strong>处理器寻址方式是指通过指令中给出的地址码字段来寻找真实操作数地址的方式</strong>。</li>
+<li>尽管<strong>ARM处理器采用的是精简指令集</strong>，但指令间组合的灵活度却比x86处理器要高。</li>
+<li>x86处理器支持七种寻址方式， 而<strong>ARM处理器支持九种寻址方式</strong>。</li>
+</ul>
+</li>
+<li><p>九种寻址方式</p>
+<ol>
+<li><p><strong>立即寻址</strong>：</p>
+<ul>
+<li>在立即寻址指令中，后面的地址码部分为<strong>立即数</strong>（即<strong>常量或常数</strong>）。</li>
+<li><strong>立即寻址多用于给寄存器赋初值</strong>。</li>
+<li>立即数只能用于源操作数字段， 不能用于目的操作数字段， 示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mov r0, #1234</span><br><span class="line">@ 以上指令执行后， r0&#x3D;l234。立即数以&quot;#&quot;为前缀， 表示十六进制数值时以“0x” 开头，如“#0x20” </span><br></pre></td></tr></table></figure></li>
+<li><p><strong>寄存器寻址</strong></p>
+<ul>
+<li>在寄存器寻址中， <strong>操作数的值在寄存器中, 指令执行时直接从寄存器中取值进行操作</strong>， 示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mov r0,r1</span><br><span class="line">@ 以上指令执行后， r0&#x3D;r1。</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>寄存器移位寻址</strong></p>
+<ul>
+<li><font color='red'>寄存器移位寻址是ARM指令集特有的寻址方式</font>。支持五种移位操作。</li>
+<li>寄存器移位寻址与寄存器寻址类似， 只是<strong>在操作前需要对源寄存器操作数进行移位操作</strong>。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LSL</td>
+<td>逻辑左移（Logical Shift Left）， 移位后对寄存器空出的低位补0。</td>
+</tr>
+<tr>
+<td>LSR</td>
+<td>逻辑右移（Logical Shift Right）， 移位后对寄存器空出的高位补0。</td>
+</tr>
+<tr>
+<td>ASR</td>
+<td>算术右移（Arithmetic Shift Right）， 移位过程中符号位保持不变。如果源操作数为正数， 则移位后对空出的高位补0， 否则补1。</td>
+</tr>
+<tr>
+<td>ROR</td>
+<td>循环右移（Rotate Right）， 移位后在移出的低位中填写移位空出的高位。</td>
+</tr>
+<tr>
+<td>RRX</td>
+<td>带扩展的循环右移（Rotate Right eXtended by 1 place）， 操作数右移1 位， 移位空出的高位用带有C标志的值填充。</td>
+</tr>
+</tbody></table>
+<p>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mov r0， r1, LSL #2 @ 将r1寄存器左移2位，即使r1&lt;&lt;2后赋值给RO寄存器。该指令执行后r0&#x3D;r1*4</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>寄存器间接寻址</strong></p>
+<ul>
+<li>在寄存器间接寻址中， 由<strong>地址码给出的寄存器</strong>是<strong>操作数的地址指针</strong>， 所需的<strong>操作数保存在由寄存器指定的地址的存储单元</strong>中。示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ldr r0,[r1]	@ 以上指令的功能是将r1 寄存器的值作为地址，取出此地址中的值赋予r0寄存器。</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>基址寻址</strong></p>
+<ul>
+<li>基址寻址是指<strong>将地址码给出的基址寄存器与偏移量相加</strong>， <strong>形成操作数的有效地址</strong>， 所需的<strong>操作数保存在有效地址指向的存储单元中</strong>。</li>
+<li>基址寻址多用于查表、数组访问等操作。示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ldr r0,[r1,#-4]	@将r1寄存器的值减4作为地址，取出此地址中的值赋予r0寄存器。</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>多寄存器寻址</strong></p>
+<ul>
+<li>在多寄存器寻址中， 一条指令<strong>最多可以完成16个通用寄存器值的传送</strong>。示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">idmia r0,&#123;r1,r2,r3,r4&#125;	</span><br><span class="line">@ ldm 是数据加载指令，指令的后缀ia表示每次执行加载操作后，r0 寄存器自增1个字。在ARM指令集中， @ 1个字表示l个32位的值。因此，这条指令执行后，</span><br><span class="line">@ Rl &#x3D; [RO], R2&#x3D; [R0+#4],R3 &#x3D; [R0+#8], R4&#x3D; [RO+#l2］。</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>堆栈寻址</strong></p>
+<ul>
+<li><strong>堆栈寻址是ARM处理器特有的寻址方式， 需要使用特定的指令来完成。</strong></li>
+<li>堆栈寻址指令有 <code>ldmfa/stmfa、ldmea/stmea、ldmfd/stmfd 、ldmed /stmed</code> 。</li>
+<li><code>ldm</code> 和<code>stm</code> 为指令前缀，表示多寄存器寻址， 即一次可以传送多个寄存器的值。<code>fa、ea、fd、ed</code> 为指令后缀。堆栈寻址示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">stmfd sp!, &#123;r1-r7, lr&#125; @ 将 r1-r7、lr 寄存器入钱，多用于保存子程序现场</span><br><span class="line">ldmfd sp!, &#123;r1-r7, lr&#125; @ 将数据出钱，放入 r1-r7、lr 寄存器，多用于恢复子程序现场</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>块拷贝寻址</strong></p>
+<ul>
+<li>块拷贝寻址用于将连续地址数据从存储器的某一位置复制到另一位置。</li>
+<li>块拷贝寻址指令有 <code>ldmia/stmia、LDMDA/STMDA、LDMIB /STMIB、LDMDB /STMDB</code>。LDM和STM为指令前缀， 表示多寄存器寻址。示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ldmia r0!,&#123;r1-r3&#125; @从r0寄存器指向的存储单元中卖取3个字,将其分别放到rl~r3寄存器中</span><br><span class="line">stmia r0!,&#123;r1-r3&#125; @将rl~r3寄存器的内容存储到r0寄存器指向的存储单元中</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>相对寻址</strong></p>
+<ul>
+<li>相对寻址<strong>以程序计数器PC的当前值为基地址， 以指令中的地址标号为偏移量， 将两者相加，得到操作数的有效地址</strong>， 示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bl next @bl next表示跳转到next标号处执行。这里的bl采用的就是相对寻址，标号next就是偏移量。</span><br><span class="line">...</span><br><span class="line">next:</span><br><span class="line">...</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>子程序参数的传递</p>
+<ul>
+<li><p>子程序用于在代码中完成一个独立的功能。在功能上， 它等同于高级语言中的函数。</p>
+</li>
+<li><p><code>armeabi</code> 中的参数传递有如下约定：</p>
+<ul>
+<li> <code>RO～R3</code> 这四个寄存器用于传递子程序调用的<strong>第1个到第4个参数</strong>， <strong>多出的参数通过堆找来传递</strong>；</li>
+<li> <code>R0</code>寄存器同时用于存放子程序的返回结果， <strong>如果数据大于32位， 则将结果存入<code>R0</code>与<code>R1</code>寄存器</strong>；</li>
+<li> 被调用的函数在返回前<strong>无须恢复这些寄存器的内容</strong>。</li>
+<li> 对浮点数， <code>armeabi</code> 没有提供浮点指令， 软模拟的浮点指令为 <code>softvfp</code>。</li>
+</ul>
+</li>
+<li><p><code>armeabi-v7a</code>中的<strong>参数传递与armeabi 中的基本一致，只是在浮点指令参数传递上有些不同</strong>。<code>armeabi-v7a</code>是支持硬件浮点指令的，因此，具体的浮点运算都交给了浮点指令。</p>
+<ul>
+<li>测试代码如下：</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// app2.c</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add2</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c, <span class="keyword">int</span> d, <span class="keyword">int</span> e, <span class="keyword">int</span> f, <span class="keyword">int</span> g, <span class="keyword">int</span> h, <span class="keyword">int</span> i)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a+ b + c + d + e + f + g + h + i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">add_double</span><span class="params">(<span class="keyword">double</span> d1, <span class="keyword">double</span> d2)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> d1 + d2; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">mul_double</span><span class="params">(<span class="keyword">double</span> d1, <span class="keyword">double</span> d2, <span class="keyword">double</span> d3,<span class="keyword">double</span> d4, <span class="keyword">double</span> d5,<span class="keyword">double</span> d6)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> d1*d2*d3*d4*d5*d6;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;add2: %d\n &quot;</span>,add2(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;add_double: %f\n&quot;</span>,add_double(<span class="number">1.0</span>, <span class="number">2.0</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;mul_double: %f\n&quot;</span>,mul_double(<span class="number">1.0</span>, <span class="number">2.0</span>,<span class="number">3.0</span>, <span class="number">4.0</span>,<span class="number">5.0</span>, <span class="number">6.0</span>));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># ./clang.exe <span class="string">&quot;C:\Users\jin\Desktop\app2.c&quot;</span> -target armv5te-none-linux-androideabi <span class="string">&quot;C:\Users\jin\Desktop\app2.c&quot;</span> -S -O3  <span class="string">&quot;C:\Users\jin\Desktop\app333.s&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+- 实例如下，以 （`O3` 级别优化）：
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;clang.exe &quot;C:\Users\jin\Desktop\app2.c&quot; -S  -target armv7-linux-androideabi -o &quot;C:\Users\jin\Desktop\app321.s&quot;</span><br><span class="line"></span><br><span class="line">&gt;&gt; cat app321.s</span><br><span class="line">          cat app321.s</span><br><span class="line">           .text</span><br><span class="line">           .syntax unified</span><br><span class="line">           .eabi_attribute 67, &quot;2.09&quot;      @ Tag_conformance</span><br><span class="line">           .eabi_attribute 6, 10   @ Tag_CPU_arch</span><br><span class="line">           .eabi_attribute 7, 65   @ Tag_CPU_arch_profile</span><br><span class="line">           .eabi_attribute 8, 1    @ Tag_ARM_ISA_use</span><br><span class="line">           .eabi_attribute 9, 2    @ Tag_THUMB_ISA_use</span><br><span class="line">           .fpu    neon</span><br><span class="line">           .eabi_attribute 34, 1   @ Tag_CPU_unaligned_access</span><br><span class="line">           .eabi_attribute 15, 1   @ Tag_ABI_PCS_RW_data</span><br><span class="line">           .eabi_attribute 16, 1   @ Tag_ABI_PCS_RO_data</span><br><span class="line">           .eabi_attribute 17, 2   @ Tag_ABI_PCS_GOT_use</span><br><span class="line">           .eabi_attribute 20, 1   @ Tag_ABI_FP_denormal</span><br><span class="line">           .eabi_attribute 21, 1   @ Tag_ABI_FP_exceptions</span><br><span class="line">           .eabi_attribute 23, 3   @ Tag_ABI_FP_number_model</span><br><span class="line">           .eabi_attribute 24, 1   @ Tag_ABI_align_needed</span><br><span class="line">           .eabi_attribute 25, 1   @ Tag_ABI_align_preserved</span><br><span class="line">           .eabi_attribute 38, 1   @ Tag_ABI_FP_16bit_format</span><br><span class="line">           .eabi_attribute 18, 4   @ Tag_ABI_PCS_wchar_t</span><br><span class="line">           .eabi_attribute 26, 2   @ Tag_ABI_enum_size</span><br><span class="line">           .eabi_attribute 14, 0   @ Tag_ABI_PCS_R9_use</span><br><span class="line">           .file   &quot;app2.c&quot;</span><br><span class="line">           .globl  add2                    @ -- Begin function add2</span><br><span class="line">           .p2align        2</span><br><span class="line">           .type   add2,%function</span><br><span class="line">           .code   32                      @ @add2</span><br><span class="line">   add2:</span><br><span class="line">           .fnstart</span><br><span class="line">   @ %bb.0:</span><br><span class="line">           .save   &#123;r4, r5, r6, r10, r11, lr&#125;</span><br><span class="line">           push    &#123;r4, r5, r6, r10, r11, lr&#125;</span><br><span class="line">           .setfp  r11, sp, #16</span><br><span class="line">           add     r11, sp, #16</span><br><span class="line">           add     lr, r11, #8</span><br><span class="line">           add     r0, r1, r0</span><br><span class="line">           add     r0, r0, r2</span><br><span class="line">           ldr     r4, [r11, #20]</span><br><span class="line">           ldm     lr, &#123;r6, r12, lr&#125;</span><br><span class="line">           add     r0, r0, r3</span><br><span class="line">           add     r0, r0, r6</span><br><span class="line">           ldr     r5, [r11, #24]</span><br><span class="line">           add     r0, r0, r12</span><br><span class="line">           add     r0, r0, lr</span><br><span class="line">           add     r0, r0, r4</span><br><span class="line">           add     r0, r0, r5</span><br><span class="line">           pop     &#123;r4, r5, r6, r10, r11, pc&#125;</span><br><span class="line">   .Lfunc_end0:</span><br><span class="line">           .size   add2, .Lfunc_end0-add2</span><br><span class="line">           .cantunwind</span><br><span class="line">           .fnend</span><br><span class="line">                                           @ -- End function</span><br><span class="line">           .globl  add_double              @ -- Begin function add_double</span><br><span class="line">           .p2align        2</span><br><span class="line">           .type   add_double,%function</span><br><span class="line">           .code   32                      @ @add_double</span><br><span class="line">   add_double:</span><br><span class="line">           .fnstart</span><br><span class="line">   @ %bb.0:</span><br><span class="line">           vmov    d16, r2, r3</span><br><span class="line">           vmov    d17, r0, r1</span><br><span class="line">           vadd.f64        d16, d17, d16</span><br><span class="line">           vmov    r0, r1, d16</span><br><span class="line">           bx      lr</span><br><span class="line">   .Lfunc_end1:</span><br><span class="line">           .size   add_double, .Lfunc_end1-add_double</span><br><span class="line">           .cantunwind</span><br><span class="line">           .fnend</span><br><span class="line">                                           @ -- End function</span><br><span class="line">           .globl  mul_double              @ -- Begin function mul_double</span><br><span class="line">           .p2align        2</span><br><span class="line">           .type   mul_double,%function</span><br><span class="line">           .code   32                      @ @mul_double</span><br><span class="line">   mul_double:</span><br><span class="line">           .fnstart</span><br><span class="line">   @ %bb.0:</span><br><span class="line">           vmov    d16, r2, r3</span><br><span class="line">           vmov    d17, r0, r1</span><br><span class="line">           vmul.f64        d16, d17, d16</span><br><span class="line">           vldr    d17, [sp]</span><br><span class="line">           vmul.f64        d16, d16, d17</span><br><span class="line">           vldr    d17, [sp, #8]</span><br><span class="line">           vmul.f64        d16, d16, d17</span><br><span class="line">           vldr    d17, [sp, #16]</span><br><span class="line">           vmul.f64        d16, d16, d17</span><br><span class="line">           vldr    d17, [sp, #24]</span><br><span class="line">           vmul.f64        d16, d16, d17</span><br><span class="line">           vmov    r0, r1, d16</span><br><span class="line">           bx      lr</span><br><span class="line">   .Lfunc_end2:</span><br><span class="line">           .size   mul_double, .Lfunc_end2-mul_double</span><br><span class="line">           .cantunwind</span><br><span class="line">           .fnend</span><br><span class="line">                                           @ -- End function</span><br><span class="line">           .globl  main                    @ -- Begin function main</span><br><span class="line">           .p2align        3</span><br><span class="line">           .type   main,%function</span><br><span class="line">           .code   32                      @ @main</span><br><span class="line">   main:</span><br><span class="line">           .fnstart</span><br><span class="line">   @ %bb.0:</span><br><span class="line">           .save   &#123;r11, lr&#125;</span><br><span class="line">           push    &#123;r11, lr&#125;</span><br><span class="line">           .setfp  r11, sp</span><br><span class="line">           mov     r11, sp</span><br><span class="line">           ldr     r0, .LCPI3_1</span><br><span class="line">           mov     r1, #45</span><br><span class="line">   .LPC3_0:</span><br><span class="line">           add     r0, pc, r0</span><br><span class="line">           bl      printf</span><br><span class="line">           vmov.f64        d16, #3.000000e+00</span><br><span class="line">           ldr     r0, .LCPI3_2</span><br><span class="line">   .LPC3_1:</span><br><span class="line">           add     r0, pc, r0</span><br><span class="line">           vmov    r2, r3, d16</span><br><span class="line">           bl      printf</span><br><span class="line">           vldr    d16, .LCPI3_0</span><br><span class="line">           ldr     r0, .LCPI3_3</span><br><span class="line">           vmov    r2, r3, d16</span><br><span class="line">   .LPC3_2:</span><br><span class="line">           add     r0, pc, r0</span><br><span class="line">           bl      printf</span><br><span class="line">           mov     r0, #0</span><br><span class="line">           pop     &#123;r11, pc&#125;</span><br><span class="line">           .p2align        3</span><br><span class="line">   @ %bb.1:</span><br><span class="line">   .LCPI3_0:</span><br><span class="line">           .long   0                       @ double 720</span><br><span class="line">           .long   1082556416</span><br><span class="line">   .LCPI3_1:</span><br><span class="line">           .long   .L.str-(.LPC3_0+8)</span><br><span class="line">   .LCPI3_2:</span><br><span class="line">           .long   .L.str.1-(.LPC3_1+8)</span><br><span class="line">   .LCPI3_3:</span><br><span class="line">           .long   .L.str.2-(.LPC3_2+8)</span><br><span class="line">   .Lfunc_end3:</span><br><span class="line">           .size   main, .Lfunc_end3-main</span><br><span class="line">           .cantunwind</span><br><span class="line">           .fnend</span><br><span class="line">                                           @ -- End function</span><br><span class="line">           .type   .L.str,%object          @ @.str</span><br><span class="line">           .section        .rodata.str1.1,&quot;aMS&quot;,%progbits,1</span><br><span class="line">   .L.str:</span><br><span class="line">           .asciz  &quot;add2: %d\n &quot;</span><br><span class="line">           .size   .L.str, 11</span><br><span class="line">   </span><br><span class="line">           .type   .L.str.1,%object        @ @.str.1</span><br><span class="line">   .L.str.1:</span><br><span class="line">           .asciz  &quot;add_double: %f\n&quot;</span><br><span class="line">           .size   .L.str.1, 16</span><br><span class="line">   </span><br><span class="line">           .type   .L.str.2,%object        @ @.str.2</span><br><span class="line">   .L.str.2:</span><br><span class="line">           .asciz  &quot;mul_double: %f\n&quot;</span><br><span class="line">           .size   .L.str.2, 16</span><br><span class="line">   </span><br><span class="line">           .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https:&#x2F;&#x2F;android.googlesource.com&#x2F;toolchain&#x2F;llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">           .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,%progbits</span><br></pre></td></tr></table></figure>
+
+解释如下：
+
+<figure class="highlight autohotkey"><table><tr><td class="code"><pre><span class="line">在进行浮点运算时， 使用的是v系列的浮点指令vmov与vadd.f64 ， 而在寄存器的使用上， 由</span><br><span class="line">于浮点数是<span class="number">64</span>位的， 使用相邻的两个寄存器来保存一个浮点数复数形式的值。在`add_double`子程</span><br><span class="line">序中， 使用v0与v1寄存器存放第<span class="number">1</span>个浮点数， 使用v2与v3寄存器存放第<span class="number">2</span>个浮点数， 使用`vmov`</span><br><span class="line">指令将两**个相邻通用寄存器的值复制到浮点寄存器d16与d17中然后**， 使用`vadd.f64` 指令将其相</span><br><span class="line">加， 将计算结果d16中的值复制到r0与r1中。这个过程与`armeabi`的返回值传递约定是相同的。</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ul>
+<li><p><code>armeabi-v7a</code>架构下的<code>Thumb-2</code> 指令集， 其参数传递和返回值存储与<code>armeabi</code>是一致的。</p>
+</li>
+<li><p><code>arm64-v8a</code>， <strong>参数的大小与指令的寻址空间发生了很大的变化， 在参数传递的约定上也有了扩展</strong>。</p>
+<p>arm64-v8a 的参数传递约定为：</p>
+<ul>
+<li><p>对32位的整型参数， 前8个参数使用<code>w0～w7</code>寄存器传递， 超过该数目的参数使用堆栈传递；</p>
+</li>
+<li><p>对64位的整型参数， 前8个参数使用<code>x0～x7</code>寄存器传递，超过该数目的参数使用堆栈传递；</p>
+</li>
+<li><p>对浮点数计算， 前7个参数使用<code>d0～d7</code>寄存器传递， 超过该数目的参数使用堆栈传递。</p>
+</li>
+<li><p>测试如下：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;.&#x2F;clang.exe &quot;C:\Users\jin\Desktop\app2.c&quot; -S -O3 -target aarch64-linux-android30 -o &quot;C:\Users\jin\Desktop\app321.s&quot;</span><br><span class="line"></span><br><span class="line">cat app321.s</span><br><span class="line">        .text</span><br><span class="line">        .file   &quot;app2.c&quot;</span><br><span class="line">        .globl  add2                    &#x2F;&#x2F; -- Begin function add2</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   add2,@function</span><br><span class="line">add2:                                   &#x2F;&#x2F; @add2</span><br><span class="line">&#x2F;&#x2F; %bb.0:</span><br><span class="line">        add     w9, w1, w0</span><br><span class="line">        add     w9, w9, w2</span><br><span class="line">        add     w9, w9, w3</span><br><span class="line">        ldr     w8, [sp]</span><br><span class="line">        add     w9, w9, w4</span><br><span class="line">        add     w9, w9, w5</span><br><span class="line">        add     w9, w9, w6</span><br><span class="line">        add     w9, w9, w7</span><br><span class="line">        add     w0, w9, w8</span><br><span class="line">        ret</span><br><span class="line">.Lfunc_end0:</span><br><span class="line">        .size   add2, .Lfunc_end0-add2</span><br><span class="line">                                        &#x2F;&#x2F; -- End function</span><br><span class="line">        .globl  add_double              &#x2F;&#x2F; -- Begin function add_double</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   add_double,@function</span><br><span class="line">add_double:                             &#x2F;&#x2F; @add_double</span><br><span class="line">&#x2F;&#x2F; %bb.0:</span><br><span class="line">        fadd    d0, d0, d1</span><br><span class="line">        ret</span><br><span class="line">.Lfunc_end1:</span><br><span class="line">        .size   add_double, .Lfunc_end1-add_double</span><br><span class="line">                                        &#x2F;&#x2F; -- End function</span><br><span class="line">        .globl  mul_double              &#x2F;&#x2F; -- Begin function mul_double</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   mul_double,@function</span><br><span class="line">mul_double:                             &#x2F;&#x2F; @mul_double</span><br><span class="line">&#x2F;&#x2F; %bb.0:</span><br><span class="line">        fmul    d0, d0, d1</span><br><span class="line">        fmul    d0, d0, d2</span><br><span class="line">        fmul    d0, d0, d3</span><br><span class="line">        fmul    d0, d0, d4</span><br><span class="line">        fmul    d0, d0, d5</span><br><span class="line">        ret</span><br><span class="line">.Lfunc_end2:</span><br><span class="line">        .size   mul_double, .Lfunc_end2-mul_double</span><br><span class="line">                                        &#x2F;&#x2F; -- End function</span><br><span class="line">        .globl  main                    &#x2F;&#x2F; -- Begin function main</span><br><span class="line">        .p2align        2</span><br><span class="line">        .type   main,@function</span><br><span class="line">main:                                   &#x2F;&#x2F; @main</span><br><span class="line">&#x2F;&#x2F; %bb.0:</span><br><span class="line">        stp     x29, x30, [sp, #-16]!   &#x2F;&#x2F; 16-byte Folded Spill</span><br><span class="line">      adrp    x0, .L.str</span><br><span class="line">        add     x0, x0, :lo12:.L.str</span><br><span class="line">        mov     w1, #45</span><br><span class="line">        mov     x29, sp</span><br><span class="line">        bl      printf</span><br><span class="line">        adrp    x0, .L.str.1</span><br><span class="line">        add     x0, x0, :lo12:.L.str.1</span><br><span class="line">        fmov    d0, #3.00000000</span><br><span class="line">        bl      printf</span><br><span class="line">        mov     x8, #140737488355328</span><br><span class="line">        adrp    x0, .L.str.2</span><br><span class="line">        movk    x8, #16518, lsl #48</span><br><span class="line">        add     x0, x0, :lo12:.L.str.2</span><br><span class="line">        fmov    d0, x8</span><br><span class="line">        bl      printf</span><br><span class="line">        mov     w0, wzr</span><br><span class="line">        ldp     x29, x30, [sp], #16     &#x2F;&#x2F; 16-byte Folded Reload</span><br><span class="line">        ret</span><br><span class="line">.Lfunc_end3:</span><br><span class="line">        .size   main, .Lfunc_end3-main</span><br><span class="line">                                        &#x2F;&#x2F; -- End function</span><br><span class="line">        .type   .L.str,@object          &#x2F;&#x2F; @.str</span><br><span class="line">        .section        .rodata.str1.1,&quot;aMS&quot;,@progbits,1</span><br><span class="line">.L.str:</span><br><span class="line">        .asciz  &quot;add2: %d\n &quot;</span><br><span class="line">        .size   .L.str, 11</span><br><span class="line"></span><br><span class="line">        .type   .L.str.1,@object        &#x2F;&#x2F; @.str.1</span><br><span class="line">.L.str.1:</span><br><span class="line">        .asciz  &quot;add_double: %f\n&quot;</span><br><span class="line">        .size   .L.str.1, 16</span><br><span class="line"></span><br><span class="line">        .type   .L.str.2,@object        &#x2F;&#x2F; @.str.2</span><br><span class="line">.L.str.2:</span><br><span class="line">        .asciz  &quot;mul_double: %f\n&quot;</span><br><span class="line">        .size   .L.str.2, 16</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .ident  &quot;Android (6454773 based on r365631c2) clang version 9.0.8 (https:&#x2F;&#x2F;android.googlesource.com&#x2F;toolchain&#x2F;llvm-project 98c855489587874b2a325e7a516b99d838599c6f) (based on LLVM 9.0.8svn)&quot;</span><br><span class="line">        .section        &quot;.note.GNU-stack&quot;,&quot;&quot;,@progbits</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解释如下：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line">浮点运算采用全新的f系列浮点指令完成。mul_double（）方法浮点有<span class="number">6</span>个参数，由<span class="built_in">d0</span>～<span class="built_in">d5</span>寄</span><br><span class="line">存器传入，计算结果由<span class="built_in">d0</span>寄存器返回。</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="三、ARM-汇编指令集"><a href="#三、ARM-汇编指令集" class="headerlink" title="三、ARM 汇编指令集"></a>三、<code>ARM</code> 汇编指令集</h3><blockquote>
+<p><strong>基本概念</strong></p>
+</blockquote>
+<ul>
+<li><p>ARM指令集是指计算机ARM操作指令系统。</p>
+</li>
+<li><p>Android平台的ARM汇编指令集根据架构支持类型的不同可以分为四大类，如下图：</p>
+<p>![image-20210126144442136](E:\security\Arm汇编语言\ARM instruction sets.png)</p>
+<ul>
+<li><p>ARM指令集一直在变化，<code>armeabi</code> 支持<code>ARMv7</code>以下版本的指令集，<code>armeabi-v7a</code>支持<code>ARMv7</code>系列指令集，<code>AArch32</code>支持的ARM指令集兼容之前的版本。</p>
+</li>
+<li><p><code>armeabi-v8a</code> 的<code>AArch32</code>与<code>armeabi-v7a</code>支持的所有ARM指令集，按照指令的位域与功能可以<br>分为以下几种。</p>
+<ul>
+<li>Data-processing and miscellaneous instructions ：数据处理与杂项指令。</li>
+<li>Load/store word and unsigned byte ：加载存储指令。</li>
+<li>Media instructions ：媒体指令。</li>
+<li>Branch, branch with link, and block data transfer ：分支、带链接的分支与块数据传输指令</li>
+<li>Supervisor Call and coprocessor instructions ：软中断与协处理器指令。</li>
+<li>unconditionally executed instructions ：无条件执行指令。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong><code>ARM</code> 指令编码</strong>  </p>
+</blockquote>
+<ul>
+<li><p><strong>ARM 指令集采用 32 位的等长编码格式， 按类型的位域分布</strong>， 如图所示。</p>
+<p><img src="E:\security\Arm汇编语言\ARM指令集位域分布.png" alt="image-20210126150505041"></p>
+</li>
+<li><p>采用位域方式对一条ARM 指令进行划分， 最基本的域有<code>cond、op1、op</code>。这三个域的取值会直接影响指令的具体类别与格式。</p>
+<ul>
+<li>cond 域占用 28 位到 31 位，共四位，记为<code>bits[31:28］</code>，每个位记录了一个条件标志（<code>Condition Flag</code>）。</li>
+<li><strong>每条ARM 指令的bits[31:28］中都有条件标志， 如果相应的标志位为1 ， 表示这条指令会影响标志位的结果</strong>。这四个标志位具体如下。<ul>
+<li>N: bit[31]，负数标志。</li>
+<li>Z: bit[30],   0 标志。</li>
+<li>C: bit[29]，进位标志。</li>
+<li>V: bit[28]，溢出标志。</li>
+</ul>
+</li>
+<li>标志位的组合及含义如下图所示： </li>
+</ul>
+<p>![image-20210126163947848](E:\security\Arm汇编语言\ARM Condition Flag.png)</p>
+<ul>
+<li><strong>注意</strong>：<ul>
+<li>在浮点数的无符号表示中，至少有一个非数字操作符。</li>
+<li>ARM 指令中的溢出和进位有如下特点。<ul>
+<li>对非符号数来说，不存在溢出的问题，它的进位就相当于符号数中的溢出。</li>
+<li>对有符号数来说，虽然不存在进位的问题，但是关于溢出，有如下特点。<ul>
+<li>两个正数相加，或者一个正数减一个负数，结果为负数，表示溢出了。</li>
+<li>两个负数相加，结果为正数，表示溢出了。</li>
+<li>一个正数和一个负数相加，不可能溢出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>op1</code> 域位于bits[27:25]，占三位；<code>op</code> 域位于bit[4],占一位。它们的取值组合在一起，决定了指令所属的分类（Instruction Class ）。</p>
+<ul>
+<li><strong>在<code>cond</code> 域不全为1 的情况下</strong>，它们的二进制域的值表示如下：<ul>
+<li>op1为 000 与001：这条指令是数据处理或杂项指令。</li>
+<li>op1为010，或者op1为011 且op 域为0：这条指令是加载存储指令。</li>
+<li>op1为011 且op 域为1：这条指令是媒体指令。</li>
+<li>op ！为100 与101：这条指令是分支、分支带链接与块数据传输指令。</li>
+<li>op1为110 与l 1 l ：这条指令是软中断与协处理器指令。</li>
+</ul>
+</li>
+<li><strong>在<code>cond</code> 域全为1 的情况下</strong>，<strong>这条指令是无条件执行指令</strong>。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong><code>ARM</code> 指令格式详解</strong></p>
+</blockquote>
+<ul>
+<li>指令格式：<code>&lt;opcode&gt;&#123;&lt;cond&gt;&#125;&#123;S&#125;&#123;.W\.N&#125; &lt;Rd&gt;,&lt;Rn&gt;&#123;,&lt;operand2&gt;&#125;</code><ul>
+<li><code>&lt;opcode&gt;</code> ：操作码，如 <code>ADD</code> 表示算术加操作指令；</li>
+<li><code>&#123;&lt;cond&gt;&#125; </code>： 决定指令执行的条件域；</li>
+<li><code>&#123;S&#125;</code> ：决定指令执行是否影响<code>CPSR</code>寄存器的值； </li>
+<li><code>&lt;Rd&gt;</code> ：目的寄存器； </li>
+<li><code>&lt;Rn&gt;</code> ： 第一个操作数，为寄存器； </li>
+<li><code>&lt;operand2&gt;</code> ：第二个操作数,<strong><font color='red'>可以是立即数,寄存器或寄存器位移操作</font></strong>,如 <code>SUB R2,R3,R4 LSL #2</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>常见的32位 <code>ARM</code> 指令</strong></p>
+</blockquote>
+<ol>
+<li><p><strong>数据处理与杂项指令</strong></p>
+<ul>
+<li><p><strong>数据处理与杂项指令包括数据传送指令、算术运算指令、逻辑运算指令、比较指令等</strong>。</p>
+</li>
+<li><p>数据处理指令主要用于对寄存器间的数据进行操作。</p>
+</li>
+<li><p>所有的数据处理指令均可使用s 后缀来设置是否影响状态标志。</p>
+</li>
+<li><p>比较指令不需要s后缀， 它们会直接影响状态标志。</p>
+</li>
+<li><p>常用的数据处理与杂项指令列举如下:</p>
+<ul>
+<li><p><code>MOV</code>：<code>MOV</code>是ARM指令集中使用最频繁的指令 </p>
+<ul>
+<li>功能：<strong>将8位的立即数或寄存器的内容传送到目标寄存器中</strong>。</li>
+<li>指令格式：<code>MOV&#123;S&#125;&lt;c&gt; &lt;Rd&gt;,&lt;Rm&gt;</code></li>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mov r0,#8	@ r0&#x3D;8</span><br><span class="line">mov r1,r0	@ r1&#x3D;r0</span><br><span class="line">movs r2,r1,lsl #2 @ r2&#x3D;r1*4,影响状态标志</span><br></pre></td></tr></table></figure></li>
+<li><p><code>MVN</code>：<strong>数据非传送指令</strong>。</p>
+<ul>
+<li>功能：将8位的立即数或寄存器的内容<strong>按位取反</strong>后传送到目标寄存器中。</li>
+<li>指令格式：<code>MVN&#123;S&#125;&lt;c&gt; &lt;Rd&gt;,#&lt;const&gt;</code></li>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mvn r0,#0xFF	@ r0&#x3D;0xFFFFFF00</span><br><span class="line">mvn r1,r2		@ 将r2寄存器中的数据取反后存入r1寄存器</span><br></pre></td></tr></table></figure></li>
+<li><p><code>ADD</code>：加法指令。</p>
+<ul>
+<li>功能：将Rn寄存器的值与<code>operand2</code>的值相加， 将结果保存到Rd寄存器中。</li>
+<li>指令格式：<code>ADD&#123;S&#125;&lt;c&gt; &lt;Rd&gt;,&lt;Rn&gt;,&lt;Rm&gt;&#123;,&lt;shift&gt;&#125;</code></li>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">add r0,r1,#2	@ r0&#x3D;r1+2</span><br><span class="line">adds r0,r1,r2	@ r0&#x3D;r1+r2,影响标志位</span><br><span class="line">add r0,r1,LSL #3	@ r0&#x3D;r1*8</span><br></pre></td></tr></table></figure></li>
+<li><p><code>ADC</code>：带进位的加法指令。</p>
+<ul>
+<li><p>功能：将Rn寄存器的值与Rm寄存器的值相加， 然后加上CPSR寄存器的C条件标志位的值， 最后将结果保存到Rd寄存器中。</p>
+</li>
+<li><p>指令格式：<code>ADC&#123;S&#125;&lt;c&gt; &lt;Rd&gt;,&lt;Rn&gt;,&lt;Rm&gt;&#123;,&lt;shift&gt;&#125;</code></p>
+</li>
+<li><p>示例如下：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">add r0,r0,r2</span><br><span class="line">adc rl,rl,r3  @ 这两条指令完成了64位加法运算，(Rl, R0) &#x3D; (Rl, R0) + （r3，R2)</span><br></pre></td></tr></table></figure></li>
+<li><p><code>SUB</code>：减法指令。</p>
+<ul>
+<li>功能:用Rn寄存器的值减Rm寄存器的值， 将结果保存到Rd寄存器中。</li>
+<li>指令格式：<code>SUB&#123;S&#125;&lt;C&gt; &lt;Rd&gt;, &lt;Rn&gt;, &lt;Rm&gt;&#123;, &lt;shift&gt;&#125;</code></li>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SUB R0, Rl, #4</span><br><span class="line">SUBS R0, Rl, R2</span><br></pre></td></tr></table></figure></li>
+<li><p><code>MUL</code>：<code>32</code>位乘法指令。</p>
+<ul>
+<li> 功能：将Rm寄存器的值与Rn寄存器的值相乘, 将结果的<strong>低32位</strong>保存到Rd寄存器中。</li>
+<li> 指令格式：<code>MUL&#123;s&#125;&lt;c&gt; &lt;Rd&gt;, &lt;Rn&gt;, &lt;Rm&gt;</code></li>
+<li> 指令示例:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MUL R0，Rl, R2	@ R0&#x3D;RlxR2</span><br><span class="line">MULS R0, R2, R3	 @ R0&#x3D;R2xR3 ，影响CPSR的N位与Z位</span><br></pre></td></tr></table></figure></li>
+<li><p><code>SDIV</code>：有符号数除法指令。</p>
+<ul>
+<li>指令格式：<code>SDIV&lt;C&gt; &lt;Rd&gt;, &lt;Rn&gt;, &lt;Rm&gt;</code></li>
+<li>指令示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SDIV R0, Rl, R2	@ R0&#x3D;R1&#x2F;R2</span><br></pre></td></tr></table></figure></li>
+<li><p><code>UDIV</code>：无符号数除法指令。</p>
+<ul>
+<li>指令格式：<code>UDIV&lt;c&gt; &lt;Rd&gt;, &lt;Rn&gt;, &lt;Rm&gt;</code></li>
+<li>指令示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">UDIV R0,Rl, R2 @ R0 &#x3D; Rl&#x2F;R2</span><br></pre></td></tr></table></figure></li>
+<li><p><code>ASR</code>：算术右移指令。</p>
+<ul>
+<li>功能：将Rm寄存器的值算术右移operand2 位， 并使用符号位填充空位，将移位结果保存到Rd寄存器中。</li>
+<li>指令格式：<code>ASR&#123;S&#125;&lt;C&gt; &lt;Rd&gt;, &lt;Rm&gt;, #&lt;imm&gt;</code></li>
+<li>指令示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ASR R0, Rl, #2	@ Rl寄存器的值作为高符号数右移2位后赋予R0寄存器</span><br></pre></td></tr></table></figure></li>
+<li><p><code>AND</code>：逻辑与指令。</p>
+<ul>
+<li>指令格式：<code>AND&#123;S&#125;&lt;c&gt; &lt;Rd＞，’＜Rn&gt;, &lt;Rm&gt;&#123;, &lt;shift&gt;&#125;</code></li>
+<li>指令示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">AND R0，R0，#1 ＠指令用来测试闸的最低位</span><br></pre></td></tr></table></figure></li>
+<li><p><code>ORR</code>：逻辑或指令。</p>
+<ul>
+<li>指令格式：<code>ORR&#123;S&#125;&lt;c&gt; &lt;Rd&gt;, &lt;Rn&gt;, #&lt;const&gt;</code></li>
+<li>指令示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ORR R0，R0，#0x0F @ 指令执行后，保留R0的高4位，其余位置1</span><br></pre></td></tr></table></figure></li>
+<li><p><code>EOR</code>：异或指令。</p>
+<ul>
+<li>指令格式：<code>EOR&lt;c&gt; &lt;Rdn&gt;, &lt;Rm&gt;</code></li>
+<li>指令示例如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">EOR R0,R0,R0 @ 指令执行后，R0的值为0</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>加载存储指令</strong></p>
+<ul>
+<li><p>加载存储指令完成的工作包括从存储器中加载数据与将数据存储到存储器中。</p>
+</li>
+<li><p>内存访问方式（参考自：<a href="https://blog.csdn.net/eibo51/article/details/36670929%EF%BC%89%EF%BC%9A">https://blog.csdn.net/eibo51/article/details/36670929）：</a></p>
+<ul>
+<li>偏移寻址（<code>Offset addresing</code>）<ul>
+<li>指令格式：<code>[&lt;Rn&gt;,&lt;offset&gt;]</code></li>
+<li>解释：内存访问地址值（memory）= 偏移地址（offset）+基址寄存器（<Rn>）的值；此方式基址寄存器（<Rn>）值没有变化。</li>
+</ul>
+</li>
+<li>带前索引寻址（Pre-indexed addressing）<ul>
+<li>指令格式：<code>[&lt;Rn&gt;,&lt;offset&gt;]!</code></li>
+<li>解释：内存访问地址值（memory）= 偏移地址（offset）+基址寄存器（<Rn>）的值；此方式基址寄存器（<Rn>）的值=内存访问地址值（memory），在写入内存前发生变化（故名前索引）。</li>
+</ul>
+</li>
+<li>带后索引寻址（Post-indexed addressing)<ul>
+<li>指令格式：<code>[&lt;Rn&gt;],&lt;offset&gt;</code></li>
+<li>解释：内存访问地址值（memory）= 基址寄存器（<Rn>）的值；此方式基址寄存器（<Rn>）的值=偏移地址（offset）+基址寄存器（<Rn>）的值，在写入内存前发生变化（故名后索引）。</li>
+</ul>
+</li>
+<li><offset> 可以用以下三种方式表示<ul>
+<li>立即数，例如《imm8)or (imm10) or &lt;imm 12&gt;；</li>
+<li>索引寄存器（<Rm>)。</li>
+<li>带移位索引寄存器，例如 <Rm>, LSL #<shift> (此就是Rm的值向左移动#<shift>位作为偏移量（offset）)；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>常见的加载存储指令列举如下。</p>
+<ul>
+<li><p><code>LDR</code>：用于将数据从存储器中加载到寄存器中。</p>
+<ul>
+<li>指令格式如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LDR&lt;c&gt; &lt;Rt&gt;,[&lt;Rn&gt;,&lt;Rm&gt;]</span><br><span class="line">LDR&lt;c&gt; &lt;Rt&gt;,[&lt;Rn&gt;],#+&#x2F;-&lt;imm12&gt;</span><br><span class="line">LDR&lt;C&gt; &lt;Rt&gt;, [&lt;Rn&gt;&#123;, #+&#x2F;-&lt;imm12&gt;&#125;]</span><br><span class="line">LDR&lt;C&gt; &lt;Rt&gt;, [&lt;Rn&gt;, #+&#x2F;-&lt;imm12&gt;]!</span><br><span class="line">LDR&lt;C&gt; &lt;Rt&gt;, label</span><br><span class="line">LDR&lt;C&gt; &lt;Rt&gt;, [PC,#-0]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">LDR</span> R<span class="number">8</span>,[R<span class="number">9</span>,#<span class="number">04</span>]</span><br><span class="line"><span class="attribute">LDR</span> R<span class="number">8</span>,[R<span class="number">9</span>,R<span class="number">10</span>,#<span class="number">04</span>]</span><br><span class="line"><span class="attribute">LDR</span>,R<span class="number">8</span>,label<span class="number">1</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>STR</code>：用于将数据存储到指定地址的存储单元中</p>
+<ul>
+<li>指令格式如下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">STR&lt;C&gt; &lt;Rt&gt;, [ &lt;Rn&gt;&#123;, #+&#x2F;-&lt;imm12&gt;&#125;]</span><br><span class="line">STR&lt;C&gt; &lt;Rt&gt;, [&lt;Rn&gt;], #+&#x2F;-&lt;imm12&gt;</span><br><span class="line">STR&lt;C&gt; &lt;Rt&gt;, [&lt;Rn&gt;, #+&#x2F;-&lt;imm12&gt;]!</span><br><span class="line">STR&lt;c&gt; &lt;Rt&gt;, [&lt;Rn&gt;,+&#x2F;-&lt;Rm&gt;&#123;,&lt;shift&gt;&#125;]&#123;!&#125;</span><br><span class="line">STR&lt;e&gt; &lt;Rt&gt;, [&lt;Rn&gt;I,+&#x2F;-&lt;Rm&gt;&#123;,&lt;shift&gt;!</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">STR R0,[R2,#04] @ 将R0寄存器中的数据存储到 R2+4 所指向的存储单元中</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>媒体指令，用的较少。</p>
+</li>
+<li><p>分支指令（也称跳转指令），会根据条件标志的不同取值执行不同的分支。常见的分支指令列举如下。</p>
+<ul>
+<li><p><code>B</code>：跳转指令。</p>
+<ul>
+<li>指令格式：<code>B&lt;c&gt; &lt;label&gt;</code></li>
+<li>解释：B指令是最简单的分支指令。执行B指令时， 如果条件c满足，ARM处理器将立即跳转到label指定的地址处执行。</li>
+</ul>
+</li>
+<li><p><code>BL</code>：带链接的跳转指令。</p>
+<ul>
+<li>指令格式：<code>BL&lt;c&gt; &lt;label&gt;</code></li>
+<li>解释：当执行BL 指令时， 如果条件c满足， 首先将当前指令的下一条指令的地址复制到R14 （即LR）寄存器中， 然后跳转到label指定的地址处继续执行。这条指令通常用于调用子程序。在子程序的尾部， 可以通过问 <code>MOV PC,LR</code> 指令返回主程序。</li>
+</ul>
+</li>
+<li><p><code>BX</code>：带状态切换的跳转指令。</p>
+<ul>
+<li>指令格式：<code>BX&lt;c&gt; &lt;label&gt;</code></li>
+<li>解释：执行BX指令时， 如果满足条件c， 处理器会判断label指向地址的位［0］ 是否为1， 如果为1则跳转时自动将CPSR寄存器的标志T置位， 并将目标地址处的代码解释为Thumb代码来执行， 即处理器会切换至Thumb 状态；反之， 若label指向的地址的位［0］为0， 则跳转时自动将CPSR寄存器的标志T复位， 并将目标地址处的代码解释为ARM 代码来执行， 即处理器会切换到ARM 状态。</li>
+<li>示例如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.code 32</span><br><span class="line">	...</span><br><span class="line">	ADR R0, thumbcode+l</span><br><span class="line">	BX R0 @跳转到thumbcode处执行，并将处理器切换为Thumb模式</span><br><span class="line">·thumbcode:</span><br><span class="line">.code 16</span><br><span class="line">	...</span><br></pre></td></tr></table></figure></li>
+<li><p><code>BLX</code>：带链接和状态切换的跳转指令。</p>
+<ul>
+<li>指令格式：<code>BLX&lt;c&gt; &lt;label&gt;</code></li>
+<li>解释：BLX指令集合了BL与BX指令的功能。当条件c满足时， 除了会设置链接寄存器（LR）， 还会根据label指向地址的位［0］的值来切换处理器的状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>块数据传输指令，用于一次处理一个块的数据传输。常见的块数据传输指令列举如下。</p>
+</li>
+</ul>
+</li>
+<li><p><code>ARM64</code> 指令记录：</p>
+<ul>
+<li><p><code>ADR</code>：主要用于形成pc相对地址，把相对地址load到寄存器中。</p>
+<ul>
+<li><p>指令格式：<code>adr &lt;xd&gt;, &lt;label&gt;</code></p>
+</li>
+<li><p>解释：当前指令到 <code>label</code> 的偏移 <code>offset_to_label</code> 加上 <code>PC</code> 的值，然后将结果赋值给 <code>xd</code>。offset_to_label 可以是个负数，实际在执行过程中会将offse_to_label扩展成64为有符号数。但是ARM指令的长度是固定为32bit，offset_to_label最多只能为21位，也即可以寻<code>PC +/-1MB</code>的范围。</p>
+</li>
+<li><p>经常会被编译器转换成add或sub指令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">add  &lt;xd&gt;,[PC, #offset_to_label]  or</span><br><span class="line">sub  &lt;xd&gt;,[PC, #-offset_to_label]</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>ADRP</code>：参考 <a href="https://blog.51cto.com/iamokay/2155957">https://blog.51cto.com/iamokay/2155957</a></p>
+</li>
+<li><p>连接：<a href="https://www.cnblogs.com/rongmouzhang/p/9707516.html">https://www.cnblogs.com/rongmouzhang/p/9707516.html</a> 、<a href="https://www.cnblogs.com/lvdongjie/p/6644821.html">https://www.cnblogs.com/lvdongjie/p/6644821.html</a></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV    X1，X0         ;将寄存器X0的值传送到寄存器X1</span><br><span class="line">ADD    X0，X1，X2     ;寄存器X1和X2的值相加后传送到X0</span><br><span class="line">SUB    X0，X1，X2     ;寄存器X1和X2的值相减后传送到X0</span><br><span class="line"></span><br><span class="line">AND    X0，X0，#0xF    ; X0的值与0xF相位与后的值传送到X0</span><br><span class="line">ORR    X0，X0，#9      ; X0的值与9相位或后的值传送到X0</span><br><span class="line">EOR    X0，X0，#0xF    ; X0的值与0xF相异或后的值传送到X0</span><br><span class="line"></span><br><span class="line">LDR    X5，[X6，#0x08]        ；ld：load; X6寄存器加0x08的和的地址值内的数据传送到X5</span><br><span class="line">LDP  x29, x30, [sp, #0x10]    ; ldp :load pair ; 一对寄存器, 从内存读取数据到寄存器</span><br><span class="line"></span><br><span class="line">STR X0, [SP, #0x8]         ；st:store,str:往内存中写数据（偏移值为正）; X0寄存器的数据传送到SP+0x8地址值指向的存储空间</span><br><span class="line">STUR   w0, [x29, #-0x8]   ;往内存中写数据（偏移值为负）</span><br><span class="line">STP  x29, x30, [sp, #0x10]    ;store pair，存放一对数据, 入栈指令</span><br><span class="line"></span><br><span class="line">CBZ  ;比较（Compare），如果结果为零（Zero）就转移（只能跳到后面的指令）</span><br><span class="line">CBNZ ;比较，如果结果非零（Non Zero）就转移（只能跳到后面的指令）</span><br><span class="line">CMP  ;比较指令，相当于SUBS，影响程序状态寄存器CPSR </span><br><span class="line"></span><br><span class="line">B   ;跳转指令，可带条件跳转与cmp配合使用</span><br><span class="line">BL  ;带返回的跳转指令， 返回地址保存到LR（X30）</span><br><span class="line">BLR  ; 带返回的跳转指令，跳转到指令后边跟随寄存器中保存的地址(例：blr    x8 ;跳转到x8保存的地址中去执行)</span><br><span class="line">RET   ;子程序返回指令，返回地址默认保存在LR（X30）</span><br><span class="line"></span><br><span class="line">CSEL X7, X2, X0, EQ ; if (cond &#x3D;&#x3D; true) X7 &#x3D; X2, else X7 &#x3D; X0</span><br><span class="line"></span><br><span class="line">CSET ; 是 CSINC 指令的别名。若条件为 true，则将目标寄存器设置为 1，否则将其设置为 0，示例如下：</span><br><span class="line">CSET W0, EQ ; if (cond &#x3D;&#x3D; true) W0 &#x3D; 1, else W0 &#x3D; 0</span><br><span class="line"></span><br><span class="line">UBFX ;从Wn寄存器的第lsb位开始，提取width位到Wd寄存器的最低有效位，剩余高位用0填充。分32位和64位</span><br><span class="line">UBFX Wd, Wn, #lsb, #width ; 32-bit</span><br><span class="line">UBFX Xd, Xn, #lsb, #width ; 64-bit</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p><strong>常见汇编指令总结</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sub</td>
+<td>减法指令</td>
+<td></td>
+</tr>
+<tr>
+<td>add</td>
+<td>加法指令</td>
+<td></td>
+</tr>
+<tr>
+<td>ldr</td>
+<td>取数据指令</td>
+<td>ldr r0,[r1]</td>
+</tr>
+<tr>
+<td>str</td>
+<td>存数据指令</td>
+<td></td>
+</tr>
+<tr>
+<td>ldm</td>
+<td>连续数据加载指令</td>
+<td>ldmia r0,{r1,r2,r3,r4}</td>
+</tr>
+<tr>
+<td>stm</td>
+<td>连续数据存储指令</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><code>ARM</code> 汇编中的 <code>ldr与ldm、str与stm</code> 的区别：<a href="https://blog.csdn.net/Xixo0628/article/details/108518210">https://blog.csdn.net/Xixo0628/article/details/108518210</a> </p>
+</li>
+<li><p>与ldr和str不同. <strong>ldm和stm可以一次操作多个寄存器或存储器多次</strong>。</p>
+</li>
+<li><p><strong>LDM指令运行的方向和LDR（从右到左）不一样，是从左到右运行的。</strong></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>常见指令后缀</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IA</td>
+<td>每次传送后地址加4（一个字)</td>
+<td><code>ldmia r0,&#123;r1,r2,r3,r4&#125;</code></td>
+</tr>
+<tr>
+<td>IB</td>
+<td>每次传送前地址加4（一个字)</td>
+<td></td>
+</tr>
+<tr>
+<td>DA</td>
+<td>每次传送后地址减4（一个字)</td>
+<td></td>
+</tr>
+<tr>
+<td>DB</td>
+<td>每次传送前地址减4（一个字)</td>
+<td></td>
+</tr>
+<tr>
+<td>FD</td>
+<td>满递减堆栈</td>
+<td></td>
+</tr>
+<tr>
+<td>ED</td>
+<td>空递减堆栈</td>
+<td></td>
+</tr>
+<tr>
+<td>FA</td>
+<td>满递增堆栈</td>
+<td></td>
+</tr>
+<tr>
+<td>EA</td>
+<td>空递增堆栈</td>
+<td></td>
+</tr>
+<tr>
+<td>B（byte）</td>
+<td>功能不变，操作长度变为8位</td>
+<td></td>
+</tr>
+<tr>
+<td>H（half word）</td>
+<td>功能不变，长度变为16位</td>
+<td></td>
+</tr>
+<tr>
+<td>S（signed）</td>
+<td>功能不变，操作数变为有符号</td>
+<td>ldr、 ldrb 、ldrh 、ldrsb 、ldrsh</td>
+</tr>
+<tr>
+<td>S（S标志）</td>
+<td>功能不变，影响CPSR标志位</td>
+<td>如 mov和movs， movs r0, #0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>常见寄存器</strong></p>
+</blockquote>
+<ul>
+<li><p>寄存器 <code>r31</code> 是一个特殊的寄存器，即<font color='red'>零寄存器</font>。</p>
+<p>Zero Register: 在大多数情况下，作为<strong>源寄存器使用时， r31读出来的值 是0</strong>; <strong>作为目标寄存器使用时， 丢弃结果</strong>。 WZR(word zero rigiser)或者XZR(64位）。</p>
+</li>
+<li><p><code>x29(fp)</code>：64位 栈指针寄存器。<br><code>x30(lr)</code>： 64位 通常称X30为程序链接寄存器，保存子程序结束后需要执行的下一条指令。</p>
+</li>
+<li><h4 id="PC-指令指针寄存器-program-counter-，俗称PC指针：它指示了当前cpu将要读取指令的地址-即将执行的地址-即下一条指令-。"><a href="#PC-指令指针寄存器-program-counter-，俗称PC指针：它指示了当前cpu将要读取指令的地址-即将执行的地址-即下一条指令-。" class="headerlink" title="PC 指令指针寄存器(program counter)，俗称PC指针：它指示了当前cpu将要读取指令的地址(即将执行的地址,即下一条指令)。"></a>PC 指令指针寄存器(program counter)，俗称PC指针：它指示了当前cpu将要读取指令的地址(即将执行的地址,即下一条指令)。</h4></li>
+<li><h4 id="CPSR-64位-状态寄存器-Current-Program-Status-Register-：CPSR是状态寄存器，用于存放程序运行中一些状态标识。其他寄存器是用来存放数据的-而CPSR寄存器是按位起作用的-它的每一位都有专门的含义-不同于编程语言里面的if-else-在汇编中就需要根据状态寄存器中的一些状态来控制分支的执行。"><a href="#CPSR-64位-状态寄存器-Current-Program-Status-Register-：CPSR是状态寄存器，用于存放程序运行中一些状态标识。其他寄存器是用来存放数据的-而CPSR寄存器是按位起作用的-它的每一位都有专门的含义-不同于编程语言里面的if-else-在汇编中就需要根据状态寄存器中的一些状态来控制分支的执行。" class="headerlink" title="CPSR 64位 状态寄存器(Current Program Status Register )：CPSR是状态寄存器，用于存放程序运行中一些状态标识。其他寄存器是用来存放数据的,而CPSR寄存器是按位起作用的,它的每一位都有专门的含义.不同于编程语言里面的if else.在汇编中就需要根据状态寄存器中的一些状态来控制分支的执行。"></a>CPSR 64位 状态寄存器(Current Program Status Register )：CPSR是状态寄存器，用于存放程序运行中一些状态标识。其他寄存器是用来存放数据的,而CPSR寄存器是按位起作用的,它的每一位都有专门的含义.不同于编程语言里面的if else.在汇编中就需要根据状态寄存器中的一些状态来控制分支的执行。</h4></li>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Arm汇编学习</category>
+      </categories>
+      <tags>
+        <tag>Arm</tag>
+        <tag>汇编语言</tag>
+      </tags>
+  </entry>
+</search>

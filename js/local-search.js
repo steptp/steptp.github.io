@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let isXml = true;
   // Search DB path
   let searchPath = CONFIG.path;
-  if (searchPath.length === 0) {
+	console.log(searchPath);
+  if (searchPath === undefined || searchPath.length === 0) {
     searchPath = 'search.xml';
   } else if (searchPath.endsWith('json')) {
     isXml = false;
