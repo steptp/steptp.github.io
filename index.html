@@ -252,16 +252,16 @@
       
           <h1 id="adb-连接夜神模拟器"><a href="#adb-连接夜神模拟器" class="headerlink" title="adb 连接夜神模拟器"></a>adb 连接夜神模拟器</h1><ol>
 <li><p>进入模拟器安装路径，如下：</p>
-<p><img src="/images/%E5%A4%9C%E7%A5%9E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E6%89%93%E5%BC%80.png" alt="image-20210410215507421"></p>
+<p><img src="/images/AK/%E5%A4%9C%E7%A5%9E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E6%89%93%E5%BC%80.png" alt="image-20210410215507421"></p>
 </li>
 <li><p>打开如下文件，此处以 <code>Sublime Text</code> 打开，搜索 “5555” 信息。</p>
-<p><img src="/images/%E6%A8%A1%E6%8B%9F%E5%99%A8vbox-prev.png" alt="image-20210410215653821"></p>
-<p><img src="/images/%E6%A8%A1%E6%8B%9F%E5%99%A8%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84.png" alt="image-20210410220021612"></p>
+<p><img src="/images/AK/%E6%A8%A1%E6%8B%9F%E5%99%A8vbox-prev.png" alt="image-20210410215653821"></p>
+<p><img src="/images/AK/%E6%A8%A1%E6%8B%9F%E5%99%A8%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84.png" alt="image-20210410220021612"></p>
 </li>
 <li><p>连接模拟器，并查看。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb connect 127.0.0.1:62001</span><br><span class="line"></span><br><span class="line">adb devices</span><br></pre></td></tr></table></figure></li>
 <li><p>连接成功，如下所示。</p>
-<p><img src="/images/%E5%A4%9C%E7%A5%9E%E6%A8%A1%E6%8B%9F%E5%99%A8%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.png" alt="image-20210410220443060"></p>
+<p><img src="/images/AK/%E5%A4%9C%E7%A5%9E%E6%A8%A1%E6%8B%9F%E5%99%A8%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.png" alt="image-20210410220443060"></p>
 </li>
 </ol>
 <h1 id="Android-Killer-连接夜神模拟器"><a href="#Android-Killer-连接夜神模拟器" class="headerlink" title="Android Killer 连接夜神模拟器"></a>Android Killer 连接夜神模拟器</h1><blockquote>
@@ -277,21 +277,21 @@
 <li><p>AK 版本：<code>AndroidKiller_v1.3.1</code></p>
 </li>
 <li><p>进入<code>adb</code>所在目录，运行连接夜神模拟器。</p>
-<p><img src="/images/AK%E4%B8%ADadb%E8%B7%AF%E5%BE%84.png" alt="image-20210410223724351"></p>
+<p><img src="/images/AK/AK%E4%B8%ADadb%E8%B7%AF%E5%BE%84.png" alt="image-20210410223724351"></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~路径\AndroidKiller_v1.3.1\bin\adb\adb.exe connect 127.0.0.1:62001</span><br></pre></td></tr></table></figure>
 
 <p>出错，显示<code>adb server is out of date.  killing...</code></p>
-<p><img src="/images/AK%E4%B8%ADadb%E8%BF%9E%E6%8E%A5%E9%94%99%E8%AF%AF.png" alt="image-20210410223353578"></p>
+<p><img src="/images/AK/AK%E4%B8%ADadb%E8%BF%9E%E6%8E%A5%E9%94%99%E8%AF%AF.png" alt="image-20210410223353578"></p>
 </li>
 <li><p>解决方法：</p>
 <ul>
 <li>进入<code>android SDK</code>所在路径，拷贝下面三个文件，将AK中<code>adb</code>所在目录中文件替换。</li>
 </ul>
-<p><img src="/images/%E6%8B%B7%E8%B4%9Dadb.png" alt="image-20210410223637248"></p>
+<p><img src="/images/AK/%E6%8B%B7%E8%B4%9Dadb.png" alt="image-20210410223637248"></p>
 </li>
 <li><p>重新连接，连接成功，AK中刷新，显示设备。</p>
-<p><img src="/images/AK%E4%B8%8Badb%E9%87%8D%E6%96%B0%E8%BF%9E%E6%8E%A5.png" alt="image-20210410224038363"></p>
-<p><img src="/images/AK%E5%88%B7%E6%96%B0.png" alt="image-20210410224156996"></p>
+<p><img src="/images/AK/AK%E4%B8%8Badb%E9%87%8D%E6%96%B0%E8%BF%9E%E6%8E%A5.png" alt="image-20210410224038363"></p>
+<p><img src="/images/AK/AK%E5%88%B7%E6%96%B0.png" alt="image-20210410224156996"></p>
 </li>
 </ul>
 
